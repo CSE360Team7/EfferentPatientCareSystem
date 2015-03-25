@@ -35,7 +35,7 @@ public class Main implements ActionListener{
 	JButton registerButton = new JButton("Register");
 	
 	
-	public static void main (String[] args){
+	public static void main (String[] args) {
 		Main mainInstance = new Main();
 		mainInstance.LoginWindow();
 	}
@@ -61,41 +61,41 @@ public class Main implements ActionListener{
         String password = passwordCell.getContents();
         
         // Login
-        if (userName.equals(userNameTextField.getText()) && (password.equals(String.valueOf(passwordPasswordField.getPassword())))){
+        if (userName.equals(userNameTextField.getText()) && (password.equals(String.valueOf(passwordPasswordField.getPassword())))) {
     		JOptionPane.showMessageDialog(alert, "Login successful!");
     		LoginWindow();
     		
-        }else{
+        } else {
         	JOptionPane.showMessageDialog(alert, "Password incorrect.");	
         }
         	
-		} catch (FileNotFoundException notFound){
+		} catch (FileNotFoundException notFound) {
     		JOptionPane.showMessageDialog(alert, "Username invalid.");	
 		}
 	}
 	
-	public void RegisterNewUser(){
+	public void RegisterNewUser() {
 			
 		User newUser;
 		
 		// Set Patient attributes
-		if (patientRadioButton.isSelected()){
+		if (patientRadioButton.isSelected()) {
 			
 			String gender;
 			int patientID = 123456789;										// Patient ID TBD
 			int age = Integer.parseInt(ageTextField.getText());
 
 			// Set gender
-			if (maleRadioButton.isSelected()){
+			if (maleRadioButton.isSelected()) {
 				gender = "Male";
-			}else{
+			} else {
 				gender = "Female";
 			}
 			
 			newUser = new Patient(age, gender, patientID);
 
 		// Set Doctor attributes
-		}else{
+		} else {
 			
 			newUser = new Doctor();
 		}
@@ -110,17 +110,9 @@ public class Main implements ActionListener{
 		// Try to create user Excel file
 		try {
 			createNewUserFile(newUser);
-		} catch (BiffException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (WriteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (BiffException|WriteException|IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void validateRegistrationInfo() throws BiffException, IOException, WriteException{
@@ -129,37 +121,33 @@ public class Main implements ActionListener{
 		
 		// Check for incomplete information
 		if ("".equals(newUserNameTextField.getText()) ||
-				("".equals(firstNameTextField.getText())) ||
-				("".equals(lastNameTextField.getText())) ||
-				("".equals(emailTextField.getText())) ||
-				("".equals(String.valueOf(newPasswordPasswordField.getPassword()))) ||
-				("".equals(String.valueOf(confirmPasswordPasswordField.getPassword()))) ||
-				(!patientRadioButton.isSelected()  && !doctorRadioButton.isSelected()) ||
-				(patientRadioButton.isSelected() && ("".equals(ageTextField.getText()) || !(maleRadioButton.isSelected() || femaleRadioButton.isSelected())))
-				){
-
-			JOptionPane.showMessageDialog(alert, "Please complete all fields.");	
+		   ("".equals(firstNameTextField.getText())) ||
+		   ("".equals(lastNameTextField.getText())) ||
+		   ("".equals(emailTextField.getText())) ||
+		   ("".equals(String.valueOf(newPasswordPasswordField.getPassword()))) ||
+		   ("".equals(String.valueOf(confirmPasswordPasswordField.getPassword()))) ||
+		   !(patientRadioButton.isSelected() || doctorRadioButton.isSelected()) ||
+		   (patientRadioButton.isSelected() && ("".equals(ageTextField.getText()) ||
+				                               !(maleRadioButton.isSelected() || femaleRadioButton.isSelected())))) {
+			JOptionPane.showMessageDialog(alert, "Please complete all fields.");
 			return;
 		}
 		
 		// Check if username is already taken
-		try{
-	        Workbook workbook = Workbook.getWorkbook(new File(newUserNameTextField.getText() + ".xls"));
-    		JOptionPane.showMessageDialog(alert, "Username already taken. Please choose another.");	
-    		return;
-    		
-		} catch (FileNotFoundException notFound){
+		File f = new File(newUserNameTextField.getText() + ".xls");
+		if (f.exists()) {
+			JOptionPane.showMessageDialog(alert, "Username already taken. Please choose another.");
+			return;
 		}
-		
+
 		// Check password equivalency
-		if (!String.valueOf(newPasswordPasswordField.getPassword()).equals(String.valueOf(confirmPasswordPasswordField.getPassword()))){
+		if (!String.valueOf(newPasswordPasswordField.getPassword()).equals(String.valueOf(confirmPasswordPasswordField.getPassword()))) {
 			JOptionPane.showMessageDialog(alert, "Passwords do not match.");	
 			return;
 		}
 		
 		// No discrepancies in user information, attempt to register
 		RegisterNewUser();
-		
 	}
 	
 	public void createNewUserFile(User newUser) throws BiffException, IOException, WriteException{
@@ -192,8 +180,7 @@ public class Main implements ActionListener{
         sheet.addCell(label);
         label = new Label(7, 0, String.valueOf(((Patient) newUser).getID()));
         sheet.addCell(label);
-        }catch(ClassCastException myException){	
-        }
+        } catch(ClassCastException myException) { myException.printStackTrace(); }
         
         workbook.write();
         workbook.close();
@@ -206,7 +193,7 @@ public class Main implements ActionListener{
 		LoginWindow();
 	}
 	
-	public void LoginWindow(){
+	public void LoginWindow() {
 		// Login Window size
 		loginWindow.setResizable(false);
 		loginWindow.setSize(300, 200);
@@ -263,7 +250,7 @@ public class Main implements ActionListener{
 		registerWindow.setVisible(false);
 	}
 	
-	public void RegistrationWindow(){
+	public void RegistrationWindow() {
 		// Registration Window
 		registerWindow.setResizable(false);
 		registerWindow.setSize(400, 355);
@@ -372,15 +359,13 @@ public class Main implements ActionListener{
 		doctorRadioButton.setActionCommand("Doctor");
 		doctorRadioButton.addActionListener(this);
 		registerWindow.add(doctorRadioButton);
-		
-		
+
 		// Register Button
 		registerButton.setBounds(50, 270, 285, 25);
 		registerButton.setActionCommand("Register");
 		registerButton.addActionListener(this);
 		registerWindow.add(registerButton);
-		
-		
+
 		registerWindow.setVisible(true);
 	}
 
@@ -388,28 +373,21 @@ public class Main implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		
 		// Login Window - Register Button
-		if ("NewUser".equals(arg0.getActionCommand())){
+		if ("NewUser".equals(arg0.getActionCommand())) {
 			userNameTextField.setText("");
 			passwordPasswordField.setText("");
 			RegistrationWindow();
 		
 		// Login Window - Login Button
-		}else if("Login".equals(arg0.getActionCommand())){
+		} else if("Login".equals(arg0.getActionCommand())) {
 			try {
 				LoginUser();
-			} catch (BiffException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (WriteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (BiffException | WriteException | IOException e) {
 				e.printStackTrace();
 			}
-			
+
 		// Register Window - Patient Radio Button
-		}else if("Patient".equals(arg0.getActionCommand())){
+		} else if("Patient".equals(arg0.getActionCommand())) {
 			patientRadioButton.setSelected(true);
 			registerWindow.setSize(400, 425);
 			doctorRadioButton.setSelected(false);
@@ -424,7 +402,7 @@ public class Main implements ActionListener{
 			femaleRadioButton.setSelected(false);
 			
 		// Register Window - Practitioner Radio Button
-		}else if ("Doctor".equals(arg0.getActionCommand())){
+		} else if ("Doctor".equals(arg0.getActionCommand())) {
 			doctorRadioButton.setSelected(true);
 			registerWindow.setSize(400, 355);
 			patientRadioButton.setSelected(false);
@@ -435,32 +413,22 @@ public class Main implements ActionListener{
 			ageTextField.setVisible(false);
 			
 		// Register Window - Male Radio Button
-		}else if ("Male".equals(arg0.getActionCommand())){
+		} else if ("Male".equals(arg0.getActionCommand())) {
 			femaleRadioButton.setSelected(false);
 			maleRadioButton.setSelected(true);
 			
 		// Register Window - Female Radio Button
-		}else if ("Female".equals(arg0.getActionCommand())){
+		} else if ("Female".equals(arg0.getActionCommand())) {
 			maleRadioButton.setSelected(false);
 			femaleRadioButton.setSelected(true);
 		
 		// Register Window - Register Button
-		}else if ("Register".equals(arg0.getActionCommand())){
+		} else if ("Register".equals(arg0.getActionCommand())) {
 			try {
 				validateRegistrationInfo();
-			} catch (BiffException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (WriteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (BiffException|WriteException|IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
-	}		
-	
-	
+	}
 }
