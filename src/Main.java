@@ -133,6 +133,12 @@ public class Main implements ActionListener{
 			return;
 		}
 		
+		if(!(newPasswordPasswordField.getPassword()).equals(confirmPasswordPasswordField.getPassword()))
+		{
+			JOptionPane.showMessageDialog(alert, "Password and Confirm password fields do not match");
+			return;
+		}
+		
 		// Check if username is already taken
 		File f = new File(newUserNameTextField.getText() + ".xls");
 		if (f.exists()) {
