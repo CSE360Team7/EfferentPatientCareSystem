@@ -319,6 +319,7 @@ public class RegisterScreen extends JFrame implements ActionListener
         // Try to access Patient specific methods if user is Patient
         try
         {
+        	//This needs fixing 
 	        label = new Label(5, 0, String.valueOf(((Patient) newUser).getAge()));
 	        sheet.addCell(label);
 	        label = new Label(6, 0, String.valueOf(((Patient) newUser).getGender()));
