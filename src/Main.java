@@ -133,11 +133,6 @@ public class Main implements ActionListener{
 			return;
 		}
 		
-		if(!(newPasswordPasswordField.getPassword()).equals(confirmPasswordPasswordField.getPassword()))
-		{
-			JOptionPane.showMessageDialog(alert, "Password and Confirm password fields do not match");
-			return;
-		}
 		
 		// Check if username is already taken
 		File f = new File(newUserNameTextField.getText() + ".xls");
@@ -146,9 +141,10 @@ public class Main implements ActionListener{
 			return;
 		}
 
-		// Check password equivalency
-		if (!String.valueOf(newPasswordPasswordField.getPassword()).equals(String.valueOf(confirmPasswordPasswordField.getPassword()))) {
-			JOptionPane.showMessageDialog(alert, "Passwords do not match.");	
+		//Check password equivalency
+		if(!(newPasswordPasswordField.getPassword()).equals(confirmPasswordPasswordField.getPassword()))
+		{
+			JOptionPane.showMessageDialog(alert, "Password and Confirm password fields do not match");
 			return;
 		}
 		
