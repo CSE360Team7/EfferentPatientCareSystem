@@ -55,115 +55,115 @@ public class RegisterScreen extends JFrame implements ActionListener
 		
 		
 		// Username Label
-				JLabel userNameLabel = new JLabel("Username");
-				userNameLabel.setBounds(50, 25, 75, 25);
-				add(userNameLabel);
-				
-				// Username Text Field
-				newUserNameTextField.setText("");
-				newUserNameTextField.setBounds(175, 25, 160, 25);
-				add(newUserNameTextField);
-				
-				// First Name Label
-				JLabel firstNameLabel = new JLabel("First Name");
-				firstNameLabel.setBounds(50, 60, 75, 25);
-				add(firstNameLabel);
+			JLabel userNameLabel = new JLabel("Username");
+			userNameLabel.setBounds(50, 25, 75, 25);
+			add(userNameLabel);
 			
-				// First Name Text Field
-				firstNameTextField.setText("");
-				firstNameTextField.setBounds(175, 60, 160, 25);
-				add(firstNameTextField);
-
-				// Last Name Label
-				JLabel lastNameLabel = new JLabel("Last Name");
-				lastNameLabel.setBounds(50, 95, 75, 25);
-				add(lastNameLabel);
-				
-				// Last Name Text Field
-				lastNameTextField.setText("");
-				lastNameTextField.setBounds(175, 95, 160, 25);
-				add(lastNameTextField);
-				
-				// Email Label
-				JLabel emailLabel = new JLabel("Email Address");
-				emailLabel.setBounds(50, 130, 100, 25);
-				add(emailLabel);
+			// Username Text Field
+			newUserNameTextField.setText("");
+			newUserNameTextField.setBounds(175, 25, 160, 25);
+			add(newUserNameTextField);
 			
-				// Email Text Field
-				emailTextField.setText("");
-				emailTextField.setBounds(175, 130, 160, 25);
-				add(emailTextField);
-				
-				// Password Label
-				JLabel passwordLabel = new JLabel("Enter Password");
-				passwordLabel.setBounds(50, 165, 125, 25);
-				add(passwordLabel);
-				
-				// Password Password Field
-				newPasswordPasswordField.setText("");
-				newPasswordPasswordField.setBounds(175, 165, 160, 25);
-				newPasswordPasswordField.setEchoChar('*');
-				add(newPasswordPasswordField);
-				
-				// Confirm Password Label
-				JLabel confirmPasswordLabel = new JLabel("Confirm Password");
-				confirmPasswordLabel.setBounds(50, 200, 125, 25);
-				add(confirmPasswordLabel);
+			// First Name Label
+			JLabel firstNameLabel = new JLabel("First Name");
+			firstNameLabel.setBounds(50, 60, 75, 25);
+			add(firstNameLabel);
+		
+			// First Name Text Field
+			firstNameTextField.setText("");
+			firstNameTextField.setBounds(175, 60, 160, 25);
+			add(firstNameTextField);
 
-				// Confirm Password Password Field
-				confirmPasswordPasswordField.setText("");
-				confirmPasswordPasswordField.setBounds(175, 200, 160, 25);
-				confirmPasswordPasswordField.setEchoChar('*');
-				add(confirmPasswordPasswordField);
-				
-				// Age Label
-				ageLabel.setBounds(50, 270, 125, 25);
-				add(ageLabel);
-				ageLabel.setVisible(false);
-				
-				// Age Text Field
-				ageTextField.setText("");
-				ageTextField.setBounds(175, 270, 160, 25);
-				add(ageTextField);
-				ageTextField.setVisible(false);
-				
-				// Male Radio Button
-				maleRadioButton.setSelected(false);
-				maleRadioButton.setBounds(50, 305, 100, 25);
-				maleRadioButton.setActionCommand("Male");
-				maleRadioButton.addActionListener(this);
-				add(maleRadioButton);
-				maleRadioButton.setVisible(false);
-						
-				// Female Radio Button
-				femaleRadioButton.setSelected(false);
-				femaleRadioButton.setBounds(150, 305, 100, 25);
-				femaleRadioButton.setActionCommand("Female");
-				femaleRadioButton.addActionListener(this);
-				add(femaleRadioButton);
-				femaleRadioButton.setVisible(false);
-				
-				// Patient Radio Button
-				patientRadioButton.setSelected(false);
-				patientRadioButton.setBounds(50, 235, 100, 25);
-				patientRadioButton.setActionCommand("Patient");
-				patientRadioButton.addActionListener(this);
-				add(patientRadioButton);
-				
-				// Doctor Radio Button
-				doctorRadioButton.setSelected(false);
-				doctorRadioButton.setBounds(150, 235, 100, 25);
-				doctorRadioButton.setActionCommand("Doctor");
-				doctorRadioButton.addActionListener(this);
-				add(doctorRadioButton);
+			// Last Name Label
+			JLabel lastNameLabel = new JLabel("Last Name");
+			lastNameLabel.setBounds(50, 95, 75, 25);
+			add(lastNameLabel);
+			
+			// Last Name Text Field
+			lastNameTextField.setText("");
+			lastNameTextField.setBounds(175, 95, 160, 25);
+			add(lastNameTextField);
+			
+			// Email Label
+			JLabel emailLabel = new JLabel("Email Address");
+			emailLabel.setBounds(50, 130, 100, 25);
+			add(emailLabel);
+		
+			// Email Text Field
+			emailTextField.setText("");
+			emailTextField.setBounds(175, 130, 160, 25);
+			add(emailTextField);
+			
+			// Password Label
+			JLabel passwordLabel = new JLabel("Enter Password");
+			passwordLabel.setBounds(50, 165, 125, 25);
+			add(passwordLabel);
+			
+			// Password Password Field
+			newPasswordPasswordField.setText("");
+			newPasswordPasswordField.setBounds(175, 165, 160, 25);
+			newPasswordPasswordField.setEchoChar('*');
+			add(newPasswordPasswordField);
+			
+			// Confirm Password Label
+			JLabel confirmPasswordLabel = new JLabel("Confirm Password");
+			confirmPasswordLabel.setBounds(50, 200, 125, 25);
+			add(confirmPasswordLabel);
 
-				// Register Button
-				registerButton.setBounds(50, 270, 285, 25);
-				registerButton.setActionCommand("Register");
-				registerButton.addActionListener(this);
-				add(registerButton);
+			// Confirm Password Password Field
+			confirmPasswordPasswordField.setText("");
+			confirmPasswordPasswordField.setBounds(175, 200, 160, 25);
+			confirmPasswordPasswordField.setEchoChar('*');
+			add(confirmPasswordPasswordField);
+			
+			// Age Label
+			ageLabel.setBounds(50, 270, 125, 25);
+			add(ageLabel);
+			ageLabel.setVisible(false);
+			
+			// Age Text Field
+			ageTextField.setText("");
+			ageTextField.setBounds(175, 270, 160, 25);
+			add(ageTextField);
+			ageTextField.setVisible(false);
+			
+			// Male Radio Button
+			maleRadioButton.setSelected(false);
+			maleRadioButton.setBounds(50, 305, 100, 25);
+			maleRadioButton.setActionCommand("Male");
+			maleRadioButton.addActionListener(this);
+			add(maleRadioButton);
+			maleRadioButton.setVisible(false);
+					
+			// Female Radio Button
+			femaleRadioButton.setSelected(false);
+			femaleRadioButton.setBounds(150, 305, 100, 25);
+			femaleRadioButton.setActionCommand("Female");
+			femaleRadioButton.addActionListener(this);
+			add(femaleRadioButton);
+			femaleRadioButton.setVisible(false);
+			
+			// Patient Radio Button
+			patientRadioButton.setSelected(false);
+			patientRadioButton.setBounds(50, 235, 100, 25);
+			patientRadioButton.setActionCommand("Patient");
+			patientRadioButton.addActionListener(this);
+			add(patientRadioButton);
+			
+			// Doctor Radio Button
+			doctorRadioButton.setSelected(false);
+			doctorRadioButton.setBounds(150, 235, 100, 25);
+			doctorRadioButton.setActionCommand("Doctor");
+			doctorRadioButton.addActionListener(this);
+			add(doctorRadioButton);
 
-				setVisible(true);
+			// Register Button
+			registerButton.setBounds(50, 270, 285, 25);
+			registerButton.setActionCommand("Register");
+			registerButton.addActionListener(this);
+			add(registerButton);
+
+			setVisible(true);
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
@@ -217,29 +217,32 @@ public class RegisterScreen extends JFrame implements ActionListener
 			}
 		}
 	}
-	public void RegisterNewUser() {
-		
+	public void RegisterNewUser()
+	{		
 		User newUser;
 		
 		// Set Patient attributes
 		if (patientRadioButton.isSelected()) {
 			
-			String gender;
-			int patientID = 123456789;										// Patient ID TBD
+			String gender;	
 			int age = Integer.parseInt(ageTextField.getText());
 
 			// Set gender
-			if (maleRadioButton.isSelected()) {
+			if (maleRadioButton.isSelected()) 
+			{
 				gender = "Male";
-			} else {
+			} 
+			else 
+			{
 				gender = "Female";
 			}
-			
-			newUser = new Patient(age, gender, patientID);
+			String username = newUserNameTextField.getText();
+			newUser = new Patient(age, gender, username);
 
 		// Set Doctor attributes
-		} else {
-			
+		} 
+		else 
+		{			
 			newUser = new Doctor();
 		}
 		
@@ -283,7 +286,13 @@ public class RegisterScreen extends JFrame implements ActionListener
 			JOptionPane.showMessageDialog(alert, "Username already taken. Please choose another.");
 			return;
 		}
-
+		
+		if(!(emailTextField.getText().contains("@")))
+		{
+			JOptionPane.showMessageDialog(alert, "Please enter a valid email address");
+			return;
+		}
+		
 		//Check password equivalency
 		if (!String.valueOf(newPasswordPasswordField.getPassword()).equals(String.valueOf(confirmPasswordPasswordField.getPassword()))) {
 			JOptionPane.showMessageDialog(alert, "Passwords do not match.");	
@@ -335,7 +344,7 @@ public class RegisterScreen extends JFrame implements ActionListener
         // Show registration confirmation
 		JFrame alert = new JFrame();
 		JOptionPane.showMessageDialog(alert, "Registration successful!");		
-
+		dispose();
 		// Show login window
 		new LoginScreen();
 	}

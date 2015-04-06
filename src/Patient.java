@@ -1,19 +1,32 @@
 
-public class Patient extends User{
-
+public class Patient extends User
+{
 	private int age, patientID;
 	private String gender;
 	
-	Patient(){
+	Patient()
+	{
 		age = -1;
 		gender = "";
 		patientID = -1;
 	}
 	
-	Patient(int a, String g, int pID){
+	Patient(int a, String g , String username)
+	{
 		age = a;
 		gender = g;
-		patientID = pID;
+		patientID = generatePatientID(username);
+	}
+	
+	int generatePatientID(String username)
+	{
+		int keyGen = 0;
+		char[] name = username.toCharArray();
+		for(int i = 0; i<name.length; i++)
+		{
+			keyGen += name[i] * i;
+		}
+		return keyGen;
 	}
 	
 	void setAge(int a){
@@ -24,7 +37,8 @@ public class Patient extends User{
 		gender = a;
 	}
 	
-	void setID(int a){
+	void setID(int a)
+	{
 		patientID = a;
 	}
 	
