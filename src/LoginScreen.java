@@ -17,8 +17,8 @@ public class LoginScreen extends JFrame implements ActionListener
 	
 	public LoginScreen()
 	{
-		super ("Efferent Patient Care System - Login");
-		
+		super ("Efferent Patient Care System - Login");	
+
 		setLocationRelativeTo(null);
 		setLayout(null);
 		
