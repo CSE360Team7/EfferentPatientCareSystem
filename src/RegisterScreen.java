@@ -313,6 +313,7 @@ public class RegisterScreen extends JFrame implements ActionListener
         WritableSheet sheet = workbook.createSheet(newUser.getUserName(), 0);
  
         // Add user information to cells
+        Integer marker = new Integer(0);
         Label label = new Label(0, 0, newUser.getUserName());
         sheet.addCell(label);
         label = new Label(1, 0, String.valueOf(newUser.getPassword()));
@@ -323,17 +324,23 @@ public class RegisterScreen extends JFrame implements ActionListener
         sheet.addCell(label);
         label = new Label(4, 0, newUser.getEmail());
         sheet.addCell(label);
+        //Simple way to mark if user is doctor or patient
+        label = new Label (8,0, marker.toString());
+        sheet.addCell(label);
 
         
         // Try to access Patient specific methods if user is Patient
         try
         {
+        	marker = 1;
         	//This needs fixing 
 	        label = new Label(5, 0, String.valueOf(((Patient) newUser).getAge()));
 	        sheet.addCell(label);
 	        label = new Label(6, 0, String.valueOf(((Patient) newUser).getGender()));
 	        sheet.addCell(label);
 	        label = new Label(7, 0, String.valueOf(((Patient) newUser).getID()));
+	        sheet.addCell(label);
+	        label = new Label (8,0, marker.toString());
 	        sheet.addCell(label);
         } 
         catch(ClassCastException myException) { myException.printStackTrace(); }
