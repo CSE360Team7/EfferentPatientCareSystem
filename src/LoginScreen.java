@@ -98,15 +98,28 @@ public class LoginScreen extends JFrame implements ActionListener
 	        // Get username and password from file
 	        Cell userNameCell = sheet.getCell(0,0);
 	        Cell passwordCell = sheet.getCell(1,0);
+	        Cell markerCell = sheet.getCell(8,0);
 	        
 	        // Convert to string
 	        String userName = userNameCell.getContents();
 	        String password = passwordCell.getContents();
+	        String marker = markerCell.getContents();
 	        
 	        // Login
 	        if (userName.equals(userNameTextField.getText()) && (password.equals(String.valueOf(passwordPasswordField.getPassword())))) 
 	        {
-	    		JOptionPane.showMessageDialog(alert, "Login successful!");
+	    		if(marker.equals("1"))
+	        	{
+	        		JOptionPane.showMessageDialog(alert, "Patient Overview");
+	        		new PatientOverview();
+	        		dispose();
+	        	}
+	        	else 
+	        	{
+	        		JOptionPane.showMessageDialog(alert, "Doctor Overview");
+	        		//Add doctor overview code to generate screen
+	        		//dispose();
+	        	}
 	    		
 	        } 
 	        else 
@@ -117,7 +130,7 @@ public class LoginScreen extends JFrame implements ActionListener
 		}
 		catch (FileNotFoundException notFound) 
 		{
-    		JOptionPane.showMessageDialog(alert, "Username invalid.");	
+    			JOptionPane.showMessageDialog(alert, "Username invalid.");	
 		}
 	}
 }
