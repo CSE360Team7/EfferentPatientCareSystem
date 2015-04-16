@@ -6,21 +6,23 @@ public class Main
 	{
 		for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) 
 		{
-	            	if ("Windows".equals(info.getName())) 
+	            if ("Windows".equals(info.getName())) 
 	        	{
-	                	try 
-	                	{
-					UIManager.setLookAndFeel(info.getClassName());
-		                	break;
-				} 
-		                catch (ClassNotFoundException | InstantiationException
-								| IllegalAccessException
-								| UnsupportedLookAndFeelException e) 
-		                {
-					e.printStackTrace();
-				}
+	                try 
+	                {
+	                	UIManager.setLookAndFeel(info.getClassName());
+		                break;
+	                } 
+		                
+		            catch (ClassNotFoundException | InstantiationException
+									| IllegalAccessException
+									| UnsupportedLookAndFeelException e) 
+			        {
+						e.printStackTrace();
+					}
 	        	}
-        	}
+		}
+		
 		LoginScreen login = new LoginScreen();
 		login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		login.setSize(300, 200);
