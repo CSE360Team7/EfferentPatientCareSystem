@@ -18,9 +18,8 @@ public class DoctorOverview extends JFrame
 		super("Efferent Patient Care System - Doctor Overview");
 		setLocationRelativeTo(null);
 		setLayout(null);
-		
+		setResizable(false);
 		setSize(400,250);
-		setVisible(true);
 		
 		// Patient Table in Scroll Pane
 		PatientEntry = new JTable(5, 2);
@@ -58,6 +57,8 @@ public class DoctorOverview extends JFrame
 		Logout.setBounds(300, 175, 75, 25);
 		Logout.addActionListener(new LogoutListener());
 		this.add(Logout);
+		
+		setVisible(true);
 	}
 
 	private class LogoutListener implements ActionListener

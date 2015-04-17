@@ -23,7 +23,7 @@ public class PatientOverview extends JFrame
 		setSize(500,475);
 		setLocationRelativeTo(null);
 		setLayout(null);
-		setVisible(true);
+		setResizable(false);
 		
 		patientName = "Mr. X";	//We need to retrieve the Last name from the excel file
 		welcome = new JLabel ("Welcome " + patientName);
@@ -45,6 +45,7 @@ public class PatientOverview extends JFrame
 		
 		enterNewInfo = new JButton("Enter New Information");
 		enterNewInfo.setBounds(10, 380, 175, 25);
+		enterNewInfo.addActionListener(new AddInfoListener());
 		this.add(enterNewInfo);
 		
 		editExistingInfo = new JButton("Edit Existing Information");
@@ -85,6 +86,8 @@ public class PatientOverview extends JFrame
 		JScrollPane scrollPaneHistory = new JScrollPane(recentHistoryTable);
 		scrollPaneHistory.setBounds(10, 220, 465, 103);
 		this.add(scrollPaneHistory);
+		
+		setVisible(true);
 	}
 	
 	private class LogoutListener implements ActionListener
@@ -99,5 +102,14 @@ public class PatientOverview extends JFrame
 			login.setVisible(true);	
 			dispose();			
 		}		
+	}
+	
+	private class AddInfoListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			new AddEditPatientInfo();
+		}
 	}
 }

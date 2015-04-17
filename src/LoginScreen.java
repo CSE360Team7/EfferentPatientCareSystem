@@ -115,7 +115,7 @@ public class LoginScreen extends JFrame implements ActionListener
 	        		dispose();
 	        	}
 	        	else 
-	        	{
+	        	{	
 	        		JOptionPane.showMessageDialog(alert, "Doctor Overview");
 	        		new DoctorOverview();
 	        		dispose();
