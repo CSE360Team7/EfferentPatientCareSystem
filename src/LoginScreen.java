@@ -109,9 +109,9 @@ public class LoginScreen extends JFrame implements ActionListener
 	        if (userName.equals(userNameTextField.getText()) && (password.equals(String.valueOf(passwordPasswordField.getPassword())))) 
 	        {
 	    		if(marker.equals("1"))
-	        	{
+	    		{	  
 	        		JOptionPane.showMessageDialog(alert, "Patient Overview");
-	        		new PatientOverview();
+	        		new PatientOverview(userName);
 	        		dispose();
 	        	}
 	        	else 

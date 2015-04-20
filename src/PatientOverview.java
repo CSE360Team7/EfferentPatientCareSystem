@@ -1,13 +1,19 @@
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
+
+import jxl.*;
+import jxl.write.*;
+import jxl.read.biff.*;
 
 public class PatientOverview extends JFrame
 {
 	private JLabel welcome;
-	private String patientName;
+	private String patientFirstName, patientLastName, patientFile;
 	private JLabel recentMessages;
 	private JTable recentMessageTable;
 	private JLabel recentHistory;
@@ -17,7 +23,7 @@ public class PatientOverview extends JFrame
 	private JButton editExistingInfo;
 	private JButton logout;
 	
-	public PatientOverview()
+	public PatientOverview(String patient)
 	{
 		super("Efferent Patient Care System - Patient Overview");
 		setSize(500,475);
@@ -25,8 +31,26 @@ public class PatientOverview extends JFrame
 		setLayout(null);
 		setResizable(false);
 		
-		patientName = "Mr. X";	//We need to retrieve the Last name from the excel file
-		welcome = new JLabel ("Welcome " + patientName);
+		patientFile = patient;
+		String fileName = patient + ".xls";
+		try
+		{
+			Workbook workbook = Workbook.getWorkbook(new File(fileName));
+			Sheet sheet = workbook.getSheet(0);
+			
+			Cell firstNameCell = sheet.getCell(2,0);
+			Cell lastNameCell = sheet.getCell(3,0);
+			String firstName =firstNameCell.getContents();
+			String lastName = lastNameCell.getContents();
+			patientFirstName = firstName;
+			patientLastName = lastName;
+		}
+		catch(BiffException | IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		welcome = new JLabel ("Welcome " + patientFirstName + " " + patientLastName);
 		welcome.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		welcome.setBounds(10, 30, 150, 15);
 		this.add(welcome);
@@ -109,7 +133,7 @@ public class PatientOverview extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			new AddEditPatientInfo();
+			new AddEditPatientInfo(patientFile);
 		}
 	}
 }

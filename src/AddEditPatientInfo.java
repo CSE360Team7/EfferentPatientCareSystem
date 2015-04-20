@@ -3,14 +3,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import jxl.*;
+import jxl.write.*;
+import jxl.read.biff.*;
+
 public class AddEditPatientInfo extends JFrame
 {
-	private String patientName;
+	private String patientFirstName, patientLastName, patientFile;
 	private JLabel nameLabel;
 	private JLabel info1;
 	private JLabel info2;
@@ -18,9 +24,8 @@ public class AddEditPatientInfo extends JFrame
 	private JSlider painSlider, drowsinessSlider, nauseaSlider, anxietySlider, depressionSlider;
 	private JTextField painText, drowsinessText, nauseaText, anxietyText, depressionText;
 	private JButton submit, reset, cancel;
-	//public AddEditPatientInfo(Patient details) //Constructor
 	
-	public AddEditPatientInfo()
+	public AddEditPatientInfo(String patient)
 	{
 		super("Efferent Patient Care System - Add/Edit Patient Information");
 		
@@ -28,10 +33,27 @@ public class AddEditPatientInfo extends JFrame
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);	
+		
+		patientFile = patient;
+		String fileName = patient + ".xls";
+		try
+		{
+			Workbook workbook = Workbook.getWorkbook(new File(fileName));
+			Sheet sheet = workbook.getSheet(0);
+			
+			Cell firstNameCell = sheet.getCell(2,0);
+			Cell lastNameCell = sheet.getCell(3,0);
+			String firstName = firstNameCell.getContents();
+			String lastName = lastNameCell.getContents();
+			patientFirstName = firstName;
+			patientLastName = lastName;
+		}
+		catch(BiffException | IOException e)
+		{
+			e.printStackTrace();
+		}
 
-		//patientName = details.getLastName(); //Should be something like this
-		patientName = "Mr. X";
-		nameLabel = new JLabel(patientName);
+		nameLabel = new JLabel(patientFirstName + " " + patientLastName);
 		nameLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		nameLabel.setBounds(10, 30, 150, 15);
 		this.add(nameLabel);
@@ -294,7 +316,18 @@ public class AddEditPatientInfo extends JFrame
 		{
 			if(arg0.getSource() == submit)
 			{
-				//To insert into patient excel file
+				String fileName = patientFile + ".xls";
+				try
+				{
+					Workbook workbook = Workbook.getWorkbook(new File(fileName));
+					Sheet sheet = workbook.getSheet(0);
+					
+					
+				}
+				catch(BiffException | IOException e)
+				{
+					e.printStackTrace();
+				}
 			}
 			if(arg0.getSource() == reset)
 			{
