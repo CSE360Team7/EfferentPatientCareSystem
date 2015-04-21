@@ -71,6 +71,7 @@ public class DoctorOverview extends JFrame
 		// Additional Information Button
 		AdditionalInfo = new JButton("See Additional Information");
 		AdditionalInfo.setBounds(115, 175, 175, 25);
+		AdditionalInfo.addActionListener(new SeeAdditionalInfo());
 		this.add(AdditionalInfo);
 		
 		// Logout Button
@@ -93,6 +94,15 @@ public class DoctorOverview extends JFrame
 			login.setResizable(false);
 			login.setVisible(true);	
 			dispose();			
+		}		
+	}
+	
+	private class SeeAdditionalInfo implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			new PatientFile();		
 		}		
 	}
 }
