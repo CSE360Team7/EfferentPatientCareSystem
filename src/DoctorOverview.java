@@ -1,8 +1,15 @@
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 public class DoctorOverview extends JFrame  
 {
@@ -13,13 +20,28 @@ public class DoctorOverview extends JFrame
 	private JLabel Alerts, Welcome;
 	private JButton AdditionalInfo, Logout;
 		
-	public DoctorOverview()
+	public DoctorOverview(String doctor)
 	{
 		super("Efferent Patient Care System - Doctor Overview");
 		setLocationRelativeTo(null);
 		setLayout(null);
 		setResizable(false);
 		setSize(400,250);
+		
+		// Load EXCEL information
+		String fileName = doctor + ".xls";
+		try
+		{
+			Workbook workbook = Workbook.getWorkbook(new File(fileName));
+			Sheet sheet = workbook.getSheet(0);
+			
+			Cell lastNameCell = sheet.getCell(3,0);
+			doctorName = lastNameCell.getContents();
+		}
+		catch(BiffException | IOException e)
+		{
+			e.printStackTrace();
+		}
 		
 		// Patient Table in Scroll Pane
 		PatientEntry = new JTable(5, 2);
@@ -41,8 +63,7 @@ public class DoctorOverview extends JFrame
 		this.add(Alerts);
 		
 		// Welcome Label
-		doctorName = "Dr. Smith"; //We need to retrieve the Last name
-		Welcome = new JLabel("Welcome " + doctorName);
+		Welcome = new JLabel("Welcome Dr. " + doctorName);
 		Welcome.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		Welcome.setBounds(10, 30, 150, 15);
 		this.add(Welcome);

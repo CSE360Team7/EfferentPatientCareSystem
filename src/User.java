@@ -6,6 +6,7 @@ public abstract class User {
 	private String userName;
 	private String emailAddress;
 	private char[] password;
+	private int userType;
 	
 	User(){
 		firstName = "";
@@ -13,6 +14,7 @@ public abstract class User {
 		userName = "";
 		emailAddress = "";
 		password = null;
+		userType = -1;
 	}
 	
 	User(String fn, String ln, String un, String e, char[] p){
@@ -43,6 +45,10 @@ public abstract class User {
 	void setPassword(char[] a){
 		password = a;
 	}
+	
+	void setUserType(int a){
+		userType = a;
+	}
 
 	String getFirstName(){
 		return firstName;
@@ -64,5 +70,8 @@ public abstract class User {
 		return password;
 	}
 
+	int getUserType(){
+		return userType;
+	}
 
 }
