@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -11,6 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+
 public class PatientFile extends JFrame {
 
 	private JLabel lblFile, lblPain, lblDrowsiness, lblNausea, lblAnxiety, lblDepression, lblMessage, lblEntries, lblSeverity, lblAction;
@@ -18,11 +25,28 @@ public class PatientFile extends JFrame {
 	private JTextArea txtMessage;
 	private JButton btnConfirm, btnSendMessage, btnClose;
 	private JComboBox cbSeverity;
+
+	String firstName = "", lastName = "";
 	
-	public PatientFile()
+	public PatientFile(String patientFile)
 	{
-		
+	
 	super("Efferent Patient Care System - Patient File");
+	
+	String fileName = patientFile + ".xls";
+	try
+	{
+		Workbook workbook = Workbook.getWorkbook(new File(fileName));
+		Sheet sheet = workbook.getSheet(0);
+		
+		firstName = sheet.getCell(2, 0).getContents();
+		lastName = sheet.getCell(3,0).getContents();
+		
+	}
+	catch(BiffException | IOException e)
+	{
+		e.printStackTrace();
+	}
 	
 	// Window layout
 	setSize(500,400);
@@ -32,7 +56,7 @@ public class PatientFile extends JFrame {
 	setVisible(true);
 	
 	// Patient name label
-	lblFile = new JLabel("File for <Patient Name>");
+	lblFile = new JLabel("File for " + firstName + " " + lastName);
 	lblFile.setFont(new Font("Tahoma", Font.PLAIN, 14));
 	lblFile.setBounds(10, 30, 150, 15);
 	this.add(lblFile);
@@ -51,6 +75,7 @@ public class PatientFile extends JFrame {
 	// Pain textfield
 	txtPain = new JTextField();
 	txtPain.setBounds(150, 84, 40, 17);
+	txtPain.setEditable(false);
 	this.add(txtPain);
 
 	// Drowsiness label
@@ -62,6 +87,7 @@ public class PatientFile extends JFrame {
 	// Drowsiness textfield
 	txtDrowsiness = new JTextField();
 	txtDrowsiness.setBounds(150, 109, 40, 17);
+	txtDrowsiness.setEditable(false);
 	this.add(txtDrowsiness);
 	
 	// Nausea label
@@ -73,6 +99,7 @@ public class PatientFile extends JFrame {
 	// Nausea textfield
 	txtNausea = new JTextField();
 	txtNausea.setBounds(150, 134, 40, 17);
+	txtNausea.setEditable(false);
 	this.add(txtNausea);
 		
 	// Anxiety label
@@ -84,6 +111,7 @@ public class PatientFile extends JFrame {
 	// Anxiety textfield
 	txtAnxiety = new JTextField();
 	txtAnxiety.setBounds(150, 159, 40, 17);
+	txtAnxiety.setEditable(false);
 	this.add(txtAnxiety);
 	
 	// Depression label
@@ -95,6 +123,7 @@ public class PatientFile extends JFrame {
 	// Depression textfield
 	txtDepression = new JTextField();
 	txtDepression.setBounds(150, 184, 40, 17);
+	txtDepression.setEditable(false);
 	this.add(txtDepression);
 	
 	// Severity label

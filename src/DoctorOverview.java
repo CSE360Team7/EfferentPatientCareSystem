@@ -83,6 +83,10 @@ public class DoctorOverview extends JFrame
 		AdditionalInfo.addActionListener(new SeeAdditionalInfo());
 		this.add(AdditionalInfo);
 		
+		// Disable button if no Patients exist
+		if (PatientEntry.getRowCount() <= 0)
+			AdditionalInfo.setEnabled(false);
+		
 		// Logout Button
 		Logout = new JButton("Logout");
 		Logout.setBounds(300, 185, 75, 25);
@@ -192,7 +196,13 @@ public class DoctorOverview extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			new PatientFile();		
+			if (PatientEntry.getSelectedRow() > -1)
+			{
+				String patientFile = PatientEntry.getValueAt(PatientEntry.getSelectedRow(), 0).toString();
+				new PatientFile(patientFile);
+			}else{
+				JOptionPane.showMessageDialog(null, "Please select a patient record!");
+			}
 		}		
 	}
 }
