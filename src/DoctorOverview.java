@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.*;
 
@@ -32,9 +35,8 @@ public class DoctorOverview extends JFrame
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);
-		setVisible(true);
 		
-		//LoadPatientFiles();
+		LoadPatientFiles();
 		
 		// Load EXCEL information
 		String fileName = doctor + ".xls";
@@ -56,15 +58,6 @@ public class DoctorOverview extends JFrame
 		Entries.setBounds(10, 55, 150, 15);
 		Entries.setFont(new Font(Entries.getFont().getFontName(), Font.BOLD, 12));
 		this.add(Entries);
-		
-		// Patient Table in Scroll Pane
-		PatientEntry = new JTable(2, 2);
-		PatientEntry.setAutoResizeMode(PatientEntry.AUTO_RESIZE_OFF);
-		PatientEntry.getColumnModel().getColumn(0).setHeaderValue("Name");
-		PatientEntry.getColumnModel().getColumn(1).setHeaderValue("Initial Assessment");
-		PatientEntry.getColumnModel().getColumn(0).setPreferredWidth(125);
-		PatientEntry.getColumnModel().getColumn(1).setPreferredWidth(238);
-		PatientEntry.getTableHeader().setBackground(Color.GRAY);
 		
 		// Add Patient Table to Scroll Pane
 		JScrollPane scrollPane = new JScrollPane(PatientEntry);
@@ -96,18 +89,20 @@ public class DoctorOverview extends JFrame
 		Logout.addActionListener(new LogoutListener());
 		this.add(Logout);
 		
+		setVisible(true);
+		
 	}
 
 	void LoadPatientFiles()
 	{
-		JPanel alert = new JPanel();
-		
+	    ArrayList<String> excelFiles = new ArrayList<String>();
+	    ArrayList<String> patientFiles = new ArrayList<String>();
+	    
 		// Find all EXCEL files
 		Path currentRelativePath = Paths.get("");
 		String dirpath = currentRelativePath.toAbsolutePath().toString();
 		try
 		{
-		    String files;
 		    File folder = new File(dirpath);
 		    File[] listOfFiles = folder.listFiles();
 		    
@@ -115,13 +110,67 @@ public class DoctorOverview extends JFrame
 		    	{
 		    		if (listOfFiles[i].getName().endsWith(".xls"))
 		    		{
-		    			JOptionPane.showMessageDialog(alert, listOfFiles[i].getName());
+		    			String temp = listOfFiles[i].getName();
+		    			excelFiles.add(temp);
 		    		}
 		    	}
-		}catch (Exception e){
-		    System.out.println();
+		}catch (Exception e){}
+		
+		// Find Patient EXCEL files	
+		for (int i =0; i < excelFiles.size(); i++)
+		{
+			try
+			{
+				String fileName = excelFiles.get(i);
+				Workbook workbook = Workbook.getWorkbook(new File(fileName));
+				Sheet sheet = workbook.getSheet(0);
+				
+				if (!sheet.getCell(8,0).getContents().toString().equals("1"))
+				{
+					patientFiles.add(excelFiles.get(i));
+				}
+			}
+			catch(BiffException | IOException e)
+			{
+				e.printStackTrace();
+			}
+			
 		}
 		
+		// Load Patient information from EXCEL patientFiles into Object[][]
+		Object[][] patientData = new Object[patientFiles.size()][7];
+		int step = 0;
+		
+		for (int i = 0; i < patientFiles.size(); i++)
+		{
+			try
+			{
+				String fileName = patientFiles.get(i);
+				Workbook workbook = Workbook.getWorkbook(new File(fileName));
+				Sheet sheet = workbook.getSheet(0);
+				
+				patientData[step][0] = sheet.getCell(0,0).getContents(); //Username
+				patientData[step][1] = sheet.getCell(2,0).getContents(); //First name
+				patientData[step][2] = sheet.getCell(3,0).getContents(); //Last name
+				patientData[step][3] = sheet.getCell(4,0).getContents(); //Email
+				patientData[step][4] = sheet.getCell(5,0).getContents(); //Age
+				patientData[step][5] = sheet.getCell(6,0).getContents(); //Gender
+				patientData[step][6] = sheet.getCell(7,0).getContents(); //Patient ID
+			}
+			
+			catch(BiffException | IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			step++;
+		}
+		
+		// Generate table of patient information
+		String[] columnNames = {"Username", "First Name", "Last Name", "Email", "Age", "Gender", "Patient ID"};
+		PatientEntry = new JTable(patientData, columnNames);
+		PatientEntry.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		PatientEntry.getTableHeader().setBackground(Color.GRAY);
 	}
 	
 	private class LogoutListener implements ActionListener
