@@ -12,10 +12,12 @@ import javax.swing.event.ChangeListener;
 
 import jxl.*;
 import jxl.write.*;
+import jxl.write.biff.RowsExceededException;
 import jxl.read.biff.*;
 
 public class AddEditPatientInfo extends JFrame
 {
+	private Integer counter;
 	private String patientFirstName, patientLastName, patientFile;
 	private JLabel nameLabel;
 	private JLabel info1;
@@ -33,6 +35,7 @@ public class AddEditPatientInfo extends JFrame
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);	
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		patientFile = patient;
 		String fileName = patient + ".xls";
@@ -43,8 +46,10 @@ public class AddEditPatientInfo extends JFrame
 			
 			Cell firstNameCell = sheet.getCell(2,0);
 			Cell lastNameCell = sheet.getCell(3,0);
+			Cell counterCell = sheet.getCell(0,1);
 			String firstName = firstNameCell.getContents();
 			String lastName = lastNameCell.getContents();
+			counter = Integer.parseInt(counterCell.getContents());
 			patientFirstName = firstName;
 			patientLastName = lastName;
 		}
@@ -167,6 +172,7 @@ public class AddEditPatientInfo extends JFrame
 		this.add(depressionText);
 		
 		submit = new JButton("Submit");
+		submit.addActionListener(new ButtonListener());
 		submit.setBounds(40, 420, 100, 25);
 		this.add(submit);
 		
@@ -176,6 +182,7 @@ public class AddEditPatientInfo extends JFrame
 		this.add(reset);
 		
 		cancel = new JButton("Cancel");
+		cancel.addActionListener(new ButtonListener());
 		cancel.setBounds(300, 420, 100, 25);
 		this.add(cancel);
 		
@@ -318,13 +325,49 @@ public class AddEditPatientInfo extends JFrame
 			{
 				String fileName = patientFile + ".xls";
 				try
-				{
-					Workbook workbook = Workbook.getWorkbook(new File(fileName));
-					Sheet sheet = workbook.getSheet(0);
+				{	
+					String severity = "";
+					int sum = 0;
+					sum = (Integer.parseInt(painText.getText().trim()) + Integer.parseInt(drowsinessText.getText().trim()) + 
+								Integer.parseInt(nauseaText.getText().trim()) + Integer.parseInt(anxietyText.getText().trim()) +
+								Integer.parseInt(depressionText.getText().trim()));
+					float average = sum/5;
+					if(average < 2.5)
+						severity = "Trivial";
+					if(average >= 2.5 && average < 5)
+						severity = "Minor";
+					if(average >= 5 && average < 7.5)
+						severity = "Major";
+					if(average >= 7.5 && average <= 10)
+						severity = "Critical";
 					
+					Workbook workbook = Workbook.getWorkbook(new File(fileName));
+					WritableWorkbook copy = Workbook.createWorkbook(new File (fileName), workbook);
+					WritableSheet data = copy.getSheet(0);
+					String levels = painText.getText() + "/" + drowsinessText.getText() + "/" + nauseaText.getText() + 
+													"/" + anxietyText.getText()+ "/"+ depressionText.getText();
+					
+					Label label = new Label(9, counter, levels);
+					data.addCell(label);
+					label = new Label (10, counter, severity);
+					data.addCell(label);
+					counter++;
+					label = new Label(0, 1, counter.toString());
+					data.addCell(label);
+					copy.write();
+					copy.close();
+					JOptionPane.showMessageDialog(null, "Information Entered Correctly!");
 					
 				}
 				catch(BiffException | IOException e)
+				{
+					e.printStackTrace();
+				} 
+				catch (RowsExceededException e) 
+				{
+					e.printStackTrace();
+				} 
+				catch (WriteException e) 
 				{
 					e.printStackTrace();
 				}
@@ -343,7 +386,11 @@ public class AddEditPatientInfo extends JFrame
 				anxietySlider.setValue(0);
 				depressionSlider.setValue(0);
 			}
-		}
-		
+			if(arg0.getSource() == cancel)
+			{
+				new PatientOverview(patientFile);
+				dispose();
+			}
+		}		
 	}
 }

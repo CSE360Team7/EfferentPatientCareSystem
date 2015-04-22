@@ -313,7 +313,7 @@ public class RegisterScreen extends JFrame implements ActionListener
 		// Create new file
         WritableWorkbook workbook = Workbook.createWorkbook(new File(fileName));
         WritableSheet sheet = workbook.createSheet(newUser.getUserName(), 0);
- 
+        Integer counter = new Integer(0);
         // Add user information to cells
         Label label = new Label(0, 0, newUser.getUserName());
         sheet.addCell(label);
@@ -325,7 +325,7 @@ public class RegisterScreen extends JFrame implements ActionListener
         sheet.addCell(label);
         label = new Label(4, 0, newUser.getEmail());
         sheet.addCell(label);
-        label = new Label (8,0, Integer.toString(newUser.getUserType()));
+        label = new Label (8 ,0, Integer.toString(newUser.getUserType()));
         sheet.addCell(label);
 
         // Add Patient specific data if user is Patient
@@ -336,6 +336,8 @@ public class RegisterScreen extends JFrame implements ActionListener
 	        label = new Label(6, 0, String.valueOf(((Patient) newUser).getGender()));
 	        sheet.addCell(label);
 	        label = new Label(7, 0, String.valueOf(((Patient) newUser).getID()));
+	        sheet.addCell(label);
+	        label = new Label (0, 1, counter.toString());
 	        sheet.addCell(label);
         } 
         
