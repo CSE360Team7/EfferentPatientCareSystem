@@ -134,6 +134,7 @@ public class PatientOverview extends JFrame
 		public void actionPerformed(ActionEvent arg0) 
 		{
 			new AddEditPatientInfo(patientFile);
+			dispose();
 		}
 	}
 }
