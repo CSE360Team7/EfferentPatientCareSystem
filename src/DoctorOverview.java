@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.*;
 
@@ -20,9 +22,10 @@ public class DoctorOverview extends JFrame
 	private JTable PatientEntry;
 	private JLabel Alerts, Welcome, Entries;
 	private JButton AdditionalInfo, Logout;
-		
+	
 	public DoctorOverview(String doctor)
 	{
+		
 		super("Efferent Patient Care System - Doctor Overview");
 		
 		setSize(400,250);
@@ -30,6 +33,8 @@ public class DoctorOverview extends JFrame
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setVisible(true);
+		
+		//LoadPatientFiles();
 		
 		// Load EXCEL information
 		String fileName = doctor + ".xls";
@@ -93,6 +98,32 @@ public class DoctorOverview extends JFrame
 		
 	}
 
+	void LoadPatientFiles()
+	{
+		JPanel alert = new JPanel();
+		
+		// Find all EXCEL files
+		Path currentRelativePath = Paths.get("");
+		String dirpath = currentRelativePath.toAbsolutePath().toString();
+		try
+		{
+		    String files;
+		    File folder = new File(dirpath);
+		    File[] listOfFiles = folder.listFiles();
+		    
+		    	for (int i = 0; i < listOfFiles.length; i++)
+		    	{
+		    		if (listOfFiles[i].getName().endsWith(".xls"))
+		    		{
+		    			JOptionPane.showMessageDialog(alert, listOfFiles[i].getName());
+		    		}
+		    	}
+		}catch (Exception e){
+		    System.out.println();
+		}
+		
+	}
+	
 	private class LogoutListener implements ActionListener
 	{
 		@Override
