@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,16 +18,18 @@ public class DoctorOverview extends JFrame
 	private String doctorName;
 	private Integer alertCount;
 	private JTable PatientEntry;
-	private JLabel Alerts, Welcome;
+	private JLabel Alerts, Welcome, Entries;
 	private JButton AdditionalInfo, Logout;
 		
 	public DoctorOverview(String doctor)
 	{
 		super("Efferent Patient Care System - Doctor Overview");
-		setLocationRelativeTo(null);
-		setLayout(null);
-		setResizable(false);
+		
 		setSize(400,250);
+		setResizable(false);
+		setLayout(null);
+		setLocationRelativeTo(null);
+		setVisible(true);
 		
 		// Load EXCEL information
 		String fileName = doctor + ".xls";
@@ -43,23 +46,31 @@ public class DoctorOverview extends JFrame
 			e.printStackTrace();
 		}
 		
+		// Entries label
+		Entries = new JLabel("Recent Patient Entries:");
+		Entries.setBounds(10, 55, 150, 15);
+		Entries.setFont(new Font(Entries.getFont().getFontName(), Font.BOLD, 12));
+		this.add(Entries);
+		
 		// Patient Table in Scroll Pane
-		PatientEntry = new JTable(5, 2);
+		PatientEntry = new JTable(2, 2);
 		PatientEntry.setAutoResizeMode(PatientEntry.AUTO_RESIZE_OFF);
 		PatientEntry.getColumnModel().getColumn(0).setHeaderValue("Name");
 		PatientEntry.getColumnModel().getColumn(1).setHeaderValue("Initial Assessment");
-		PatientEntry.getColumnModel().getColumn(0).setPreferredWidth(100);
-		PatientEntry.getColumnModel().getColumn(1).setPreferredWidth(245);
+		PatientEntry.getColumnModel().getColumn(0).setPreferredWidth(125);
+		PatientEntry.getColumnModel().getColumn(1).setPreferredWidth(238);
+		PatientEntry.getTableHeader().setBackground(Color.GRAY);
 		
 		// Add Patient Table to Scroll Pane
 		JScrollPane scrollPane = new JScrollPane(PatientEntry);
-		scrollPane.setBounds(10, 65, 365, 100);
+		scrollPane.setBounds(10, 75, 365, 100);
+		scrollPane.getViewport().setBackground(Color.WHITE);
 		this.add(scrollPane);
 		
 		// Alert Label
 		alertCount = 0; 
 		Alerts = new JLabel("Alerts: " + alertCount);
-		Alerts.setBounds(300, 30, 100, 15);
+		Alerts.setBounds(325, 30, 100, 15);
 		this.add(Alerts);
 		
 		// Welcome Label
@@ -70,17 +81,16 @@ public class DoctorOverview extends JFrame
 		
 		// Additional Information Button
 		AdditionalInfo = new JButton("See Additional Information");
-		AdditionalInfo.setBounds(115, 175, 175, 25);
+		AdditionalInfo.setBounds(115, 185, 175, 25);
 		AdditionalInfo.addActionListener(new SeeAdditionalInfo());
 		this.add(AdditionalInfo);
 		
 		// Logout Button
 		Logout = new JButton("Logout");
-		Logout.setBounds(300, 175, 75, 25);
+		Logout.setBounds(300, 185, 75, 25);
 		Logout.addActionListener(new LogoutListener());
 		this.add(Logout);
 		
-		setVisible(true);
 	}
 
 	private class LogoutListener implements ActionListener

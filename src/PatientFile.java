@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,6 +21,7 @@ public class PatientFile extends JFrame {
 	
 	public PatientFile()
 	{
+		
 	super("Efferent Patient Care System - Patient File");
 	
 	// Window layout
@@ -102,6 +105,11 @@ public class PatientFile extends JFrame {
 	// Severity combobox
 	cbSeverity = new JComboBox();
 	cbSeverity.setBounds(10, 245, 175, 25);
+	cbSeverity.addItem("Trivial");
+	cbSeverity.addItem("Minor");
+	cbSeverity.addItem("Major");
+	cbSeverity.addItem("Critical");
+	
 	this.add(cbSeverity);
 	
 	// Send message to patient label
@@ -136,7 +144,17 @@ public class PatientFile extends JFrame {
 	// Close button
 	btnClose = new JButton("Close");
 	btnClose.setBounds(370, 330, 105, 25);
+	btnClose.addActionListener(new Close());
 	this.add(btnClose);
 	
+	}
+	
+	private class Close implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			dispose();
+		}
 	}
 }

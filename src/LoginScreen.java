@@ -19,8 +19,11 @@ public class LoginScreen extends JFrame implements ActionListener
 	{
 		super ("Efferent Patient Care System - Login");	
 
-		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(300, 200);
+		setResizable(false);
 		setLayout(null);
+		setLocationRelativeTo(null);	
 		
 		userNameTextField = new JTextField("");
 		passwordPasswordField = new JPasswordField("");
@@ -34,7 +37,7 @@ public class LoginScreen extends JFrame implements ActionListener
 		add(passwordLabel);
 		
 		JLabel newUserLabel = new JLabel("New User? Click Register!");
-		newUserLabel.setBounds(65, 130, 150, 25);
+		newUserLabel.setBounds(85, 130, 150, 25);
 		add(newUserLabel);
 		
 		userNameTextField.requestFocus();
@@ -58,6 +61,8 @@ public class LoginScreen extends JFrame implements ActionListener
 		newUserButton.setActionCommand("NewUser");
 		newUserButton.addActionListener(this);
 		add(newUserButton);
+		
+		setVisible(true);
 	}
 
 	@Override
