@@ -115,13 +115,13 @@ public class LoginScreen extends JFrame implements ActionListener
 	        {
 	    		if(marker.equals("0"))
 	    		{	  
-	        		JOptionPane.showMessageDialog(alert, "Patient Overview");
+	        		//JOptionPane.showMessageDialog(alert, "Patient Overview");
 	        		new PatientOverview(userName);
 	        		dispose();
 	        	}
 	        	else 
 	        	{	
-	        		JOptionPane.showMessageDialog(alert, "Doctor Overview");
+	        		//JOptionPane.showMessageDialog(alert, "Doctor Overview");
 	        		new DoctorOverview(userName);
 	        		dispose();
 	        	}

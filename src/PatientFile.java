@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -17,6 +18,11 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 
 public class PatientFile extends JFrame {
 
@@ -26,22 +32,61 @@ public class PatientFile extends JFrame {
 	private JButton btnConfirm, btnSendMessage, btnClose;
 	private JComboBox cbSeverity;
 
-	String firstName = "", lastName = "";
+	String firstName = "", lastName = "", pain = "", drowsiness = "", nausea = "", anxiety = "", depression = "", severity = "";
+	String fileName;
+	String doctorFile;
+	int latestEntry = 0;
 	
-	public PatientFile(String patientFile)
+	public PatientFile(String patientFile, String doctor)
 	{
 	
 	super("Efferent Patient Care System - Patient File");
 	
-	String fileName = patientFile + ".xls";
+	// Set returning DoctorOverview doctor name
+	doctorFile = doctor;
+	
+	fileName = patientFile + ".xls";
 	try
 	{
 		Workbook workbook = Workbook.getWorkbook(new File(fileName));
 		Sheet sheet = workbook.getSheet(0);
 		
-		firstName = sheet.getCell(2, 0).getContents();
+		firstName = sheet.getCell(2,0).getContents();
 		lastName = sheet.getCell(3,0).getContents();
+
+		// Get levels count cell number (0,1)
+		latestEntry = Integer.parseInt(sheet.getCell(0,1).getContents());
 		
+		// Load values if Patient has entered symptom data
+		if (latestEntry > 0)
+		{
+			severity = sheet.getCell(10, latestEntry-1).getContents();
+			String parseLevels = sheet.getCell(9, latestEntry-1).getContents();
+			String[] delim = parseLevels.split("/");
+		
+			// Parse integers and assign to proper symptoms
+			for (int i = 0; i < delim.length; i++)
+			{
+				switch(i)
+				{
+				case 0:
+					pain = delim[i];
+					break;
+				case 1:
+					drowsiness = delim[i];
+					break;
+				case 2:
+					nausea = delim[i];
+					break;
+				case 3:
+					anxiety = delim[i];
+					break;
+				case 4:		
+					depression = delim[i];
+					break;
+				}
+			}
+		}
 	}
 	catch(BiffException | IOException e)
 	{
@@ -73,7 +118,7 @@ public class PatientFile extends JFrame {
 	this.add(lblPain);
 	
 	// Pain textfield
-	txtPain = new JTextField();
+	txtPain = new JTextField(pain);
 	txtPain.setBounds(150, 84, 40, 17);
 	txtPain.setEditable(false);
 	this.add(txtPain);
@@ -85,7 +130,7 @@ public class PatientFile extends JFrame {
 	this.add(lblDrowsiness);
 
 	// Drowsiness textfield
-	txtDrowsiness = new JTextField();
+	txtDrowsiness = new JTextField(drowsiness);
 	txtDrowsiness.setBounds(150, 109, 40, 17);
 	txtDrowsiness.setEditable(false);
 	this.add(txtDrowsiness);
@@ -97,7 +142,7 @@ public class PatientFile extends JFrame {
 	this.add(lblNausea);
 	
 	// Nausea textfield
-	txtNausea = new JTextField();
+	txtNausea = new JTextField(nausea);
 	txtNausea.setBounds(150, 134, 40, 17);
 	txtNausea.setEditable(false);
 	this.add(txtNausea);
@@ -109,7 +154,7 @@ public class PatientFile extends JFrame {
 	this.add(lblAnxiety);
 
 	// Anxiety textfield
-	txtAnxiety = new JTextField();
+	txtAnxiety = new JTextField(anxiety);
 	txtAnxiety.setBounds(150, 159, 40, 17);
 	txtAnxiety.setEditable(false);
 	this.add(txtAnxiety);
@@ -121,7 +166,7 @@ public class PatientFile extends JFrame {
 	this.add(lblDepression);
 
 	// Depression textfield
-	txtDepression = new JTextField();
+	txtDepression = new JTextField(depression);
 	txtDepression.setBounds(150, 184, 40, 17);
 	txtDepression.setEditable(false);
 	this.add(txtDepression);
@@ -138,7 +183,7 @@ public class PatientFile extends JFrame {
 	cbSeverity.addItem("Minor");
 	cbSeverity.addItem("Major");
 	cbSeverity.addItem("Critical");
-	
+	cbSeverity.setSelectedItem(severity);
 	this.add(cbSeverity);
 	
 	// Send message to patient label
@@ -162,12 +207,14 @@ public class PatientFile extends JFrame {
 	
 	// Confirm changes button
 	btnConfirm = new JButton("Confirm Changes");
+	btnConfirm.addActionListener(new ChangeSeverityAction());
 	btnConfirm.setBounds(20, 330, 150, 25);
 	this.add(btnConfirm);
 	
 	// Send message button
 	btnSendMessage = new JButton("Send Message to Patient");
 	btnSendMessage.setBounds(180, 330, 180, 25);
+	btnSendMessage.addActionListener(new SendMessageAction());
 	this.add(btnSendMessage);
 	
 	// Close button
@@ -178,12 +225,99 @@ public class PatientFile extends JFrame {
 	
 	}
 	
+	boolean ChangeSeverity()
+	{
+		try{
+		Workbook workbook = Workbook.getWorkbook(new File(fileName));
+		WritableWorkbook copy = Workbook.createWorkbook(new File (fileName), workbook);
+		WritableSheet data = copy.getSheet(0);
+		Label label = new Label(10, latestEntry-1, (String) cbSeverity.getItemAt(cbSeverity.getSelectedIndex()));
+		data.addCell(label);
+		copy.write();
+		copy.close();
+		return true;
+		
+		}catch(BiffException | IOException | WriteException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	boolean SendMessage()
+	{
+		try{
+		Workbook workbook = Workbook.getWorkbook(new File(fileName));
+		WritableWorkbook copy = Workbook.createWorkbook(new File (fileName), workbook);
+		WritableSheet data = copy.getSheet(0);
+		Label label = new Label(11, 0, txtMessage.getText());
+		data.addCell(label);
+		copy.write();
+		copy.close();
+		return true;
+		
+		}catch(BiffException | IOException | WriteException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	private class Close implements ActionListener
 	{
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
+			new DoctorOverview(doctorFile);
 			dispose();
+		}
+	}
+	
+	private class SendMessageAction implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent arg0)
+		{
+			
+			if (txtMessage.getText().equals(""))
+			{
+				JOptionPane.showMessageDialog(null, "Please enter a message to send!");
+			}else
+			{	
+				if (SendMessage())
+				{
+					JOptionPane.showMessageDialog(null, "Message sent successfully!");
+				}else
+				{
+					JOptionPane.showMessageDialog(null, "Failed to send message.");
+				}
+				
+				txtMessage.setText("");
+				txtMessage.requestFocus();
+			}
+		}
+	}
+	
+	private class ChangeSeverityAction implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent arg0)
+		{
+			
+			if (cbSeverity.getItemAt(cbSeverity.getSelectedIndex()).equals(severity))
+			{
+				JOptionPane.showMessageDialog(null, "Severity level matches previous level.");
+			}else
+			{	
+				if (ChangeSeverity())
+				{
+					JOptionPane.showMessageDialog(null, "Severity level changed successfully!");
+				}else
+				{
+					JOptionPane.showMessageDialog(null, "Failed to change severity level.");
+				}
+				
+			}
 		}
 	}
 }

@@ -20,22 +20,23 @@ import jxl.read.biff.BiffException;
 public class DoctorOverview extends JFrame  
 {
 
-	private String doctorName;
-	private Integer alertCount;
+	private String lastName = "", doctorFile = "";
+	private Integer alertCount = 0;
 	private JTable PatientEntry;
 	private JLabel Alerts, Welcome, Entries;
 	private JButton AdditionalInfo, Logout;
 	
 	public DoctorOverview(String doctor)
 	{
-		
 		super("Efferent Patient Care System - Doctor Overview");
-		
 		setSize(400,250);
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);
 		
+		doctorFile = doctor;
+		
+		// Load patient EXCEL data into table
 		LoadPatientFiles();
 		
 		// Load EXCEL information
@@ -46,7 +47,7 @@ public class DoctorOverview extends JFrame
 			Sheet sheet = workbook.getSheet(0);
 			
 			Cell lastNameCell = sheet.getCell(3,0);
-			doctorName = lastNameCell.getContents();
+			lastName = lastNameCell.getContents();
 		}
 		catch(BiffException | IOException e)
 		{
@@ -66,13 +67,14 @@ public class DoctorOverview extends JFrame
 		this.add(scrollPane);
 		
 		// Alert Label
-		alertCount = 0; 
 		Alerts = new JLabel("Alerts: " + alertCount);
 		Alerts.setBounds(325, 30, 100, 15);
+		if (alertCount > 0)
+			Alerts.setForeground(Color.RED);
 		this.add(Alerts);
 		
 		// Welcome Label
-		Welcome = new JLabel("Welcome Dr. " + doctorName);
+		Welcome = new JLabel("Welcome Dr. " + lastName);
 		Welcome.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		Welcome.setBounds(10, 30, 150, 15);
 		this.add(Welcome);
@@ -143,7 +145,7 @@ public class DoctorOverview extends JFrame
 		
 		// Load Patient information from EXCEL patientFiles into Object[][]
 		Object[][] patientData = new Object[patientFiles.size()][7];
-		int step = 0;
+		int j = 0;
 		
 		for (int i = 0; i < patientFiles.size(); i++)
 		{
@@ -153,13 +155,22 @@ public class DoctorOverview extends JFrame
 				Workbook workbook = Workbook.getWorkbook(new File(fileName));
 				Sheet sheet = workbook.getSheet(0);
 				
-				patientData[step][0] = sheet.getCell(0,0).getContents(); //Username
-				patientData[step][1] = sheet.getCell(2,0).getContents(); //First name
-				patientData[step][2] = sheet.getCell(3,0).getContents(); //Last name
-				patientData[step][3] = sheet.getCell(4,0).getContents(); //Email
-				patientData[step][4] = sheet.getCell(5,0).getContents(); //Age
-				patientData[step][5] = sheet.getCell(6,0).getContents(); //Gender
-				patientData[step][6] = sheet.getCell(7,0).getContents(); //Patient ID
+				patientData[j][0] = sheet.getCell(0,0).getContents(); //Username
+				patientData[j][1] = sheet.getCell(2,0).getContents(); //First name
+				patientData[j][2] = sheet.getCell(3,0).getContents(); //Last name
+				patientData[j][3] = sheet.getCell(4,0).getContents(); //Email
+				patientData[j][4] = sheet.getCell(5,0).getContents(); //Age
+				patientData[j][5] = sheet.getCell(6,0).getContents(); //Gender
+				patientData[j][6] = sheet.getCell(7,0).getContents(); //Patient ID
+				
+				// Update Alert count
+				Integer latestEntry = Integer.parseInt(sheet.getCell(0,1).getContents());
+				if (latestEntry > 0)
+				{
+					String severity = sheet.getCell(10, latestEntry-1).getContents();
+					if (severity.equals("Critical"))
+						alertCount++;
+				}
 			}
 			
 			catch(BiffException | IOException e)
@@ -167,7 +178,7 @@ public class DoctorOverview extends JFrame
 				e.printStackTrace();
 			}
 			
-			step++;
+			j++;
 		}
 		
 		// Generate table of patient information
@@ -199,7 +210,8 @@ public class DoctorOverview extends JFrame
 			if (PatientEntry.getSelectedRow() > -1)
 			{
 				String patientFile = PatientEntry.getValueAt(PatientEntry.getSelectedRow(), 0).toString();
-				new PatientFile(patientFile);
+				new PatientFile(patientFile, doctorFile);
+				dispose();
 			}else{
 				JOptionPane.showMessageDialog(null, "Please select a patient record!");
 			}
