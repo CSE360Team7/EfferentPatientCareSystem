@@ -184,6 +184,9 @@ public class PatientFile extends JFrame {
 	cbSeverity.addItem("Major");
 	cbSeverity.addItem("Critical");
 	cbSeverity.setSelectedItem(severity);
+	if (severity.equals(""))
+		cbSeverity.setEnabled(false);
+	
 	this.add(cbSeverity);
 	
 	// Send message to patient label
@@ -209,6 +212,8 @@ public class PatientFile extends JFrame {
 	btnConfirm = new JButton("Confirm Changes");
 	btnConfirm.addActionListener(new ChangeSeverityAction());
 	btnConfirm.setBounds(20, 330, 150, 25);
+	if (!cbSeverity.isEnabled())
+		btnConfirm.setEnabled(false);
 	this.add(btnConfirm);
 	
 	// Send message button
@@ -293,8 +298,8 @@ public class PatientFile extends JFrame {
 				}
 				
 				txtMessage.setText("");
-				txtMessage.requestFocus();
 			}
+			txtMessage.requestFocus();
 		}
 	}
 	
