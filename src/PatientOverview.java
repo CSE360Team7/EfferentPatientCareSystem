@@ -27,15 +27,17 @@ public class PatientOverview extends JFrame
 	public PatientOverview(String patient)
 	{
 		super("Efferent Patient Care System - Patient Overview");
-		setSize(500,475);
+		setSize(500,440);
 		setLocationRelativeTo(null);
 		setLayout(null);
 		setResizable(false);
-		
-		LoadMessages();
-		
+			
 		patientFile = patient;
 		String fileName = patient + ".xls";
+		
+		// Load Patient Messages into table
+		LoadMessages();
+		
 		try
 		{
 			Workbook workbook = Workbook.getWorkbook(new File(fileName));
@@ -67,31 +69,29 @@ public class PatientOverview extends JFrame
 		this.add(recentHistory);
 		
 		options = new JLabel("What would you like to do?");
-		options.setBounds(10, 340, 200, 15);
+		options.setBounds(10, 350, 200, 15);
 		this.add(options);
 		
 		enterNewInfo = new JButton("Enter New Information");
-		enterNewInfo.setBounds(10, 380, 175, 25);
+		enterNewInfo.setBounds(10, 370, 175, 25);
 		enterNewInfo.addActionListener(new AddInfoListener());
 		this.add(enterNewInfo);
 		
 		editExistingInfo = new JButton("Edit Existing Information");
-		editExistingInfo.setBounds(190, 380, 175, 25);
+		editExistingInfo.setBounds(190, 370, 175, 25);
 		this.add(editExistingInfo);
 		
 		logout = new JButton("Logout");
-		logout.setBounds(370, 380, 100, 25);
+		logout.setBounds(370, 370, 100, 25);
 		logout.addActionListener(new LogoutListener());
 		this.add(logout);
 		
-		recentMessageTable = new JTable(5, 2);
-		recentMessageTable.setAutoResizeMode(recentMessageTable.AUTO_RESIZE_OFF);
-		recentMessageTable.getColumnModel().getColumn(0).setHeaderValue("Doctor Name");
-		recentMessageTable.getColumnModel().getColumn(1).setHeaderValue("Message");
-		recentMessageTable.getColumnModel().getColumn(0).setPreferredWidth(100);
-		recentMessageTable.getColumnModel().getColumn(1).setPreferredWidth(500);
+		// Messages table
 		recentMessageTable.getTableHeader().setBackground(Color.GRAY);
+		recentMessageTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+		recentMessageTable.getColumnModel().getColumn(1).setPreferredWidth(750);	
 		
+		// Create ScrollPane for Messages table
 		JScrollPane scrollPaneMessage = new JScrollPane(recentMessageTable);
 		scrollPaneMessage.setBounds(10, 75, 465, 103);
 		this.add(scrollPaneMessage);
@@ -104,12 +104,12 @@ public class PatientOverview extends JFrame
 		recentHistoryTable.getColumnModel().getColumn(3).setHeaderValue("Anxiety");
 		recentHistoryTable.getColumnModel().getColumn(4).setHeaderValue("Depression");
 		recentHistoryTable.getColumnModel().getColumn(5).setHeaderValue("Final Evaluation");	
-		recentHistoryTable.getColumnModel().getColumn(0).setPreferredWidth(75);
-		recentHistoryTable.getColumnModel().getColumn(1).setPreferredWidth(75);
-		recentHistoryTable.getColumnModel().getColumn(2).setPreferredWidth(75);
-		recentHistoryTable.getColumnModel().getColumn(3).setPreferredWidth(75);
-		recentHistoryTable.getColumnModel().getColumn(4).setPreferredWidth(75);
-		recentHistoryTable.getColumnModel().getColumn(5).setPreferredWidth(87);
+		recentHistoryTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+		recentHistoryTable.getColumnModel().getColumn(1).setPreferredWidth(70);
+		recentHistoryTable.getColumnModel().getColumn(2).setPreferredWidth(70);
+		recentHistoryTable.getColumnModel().getColumn(3).setPreferredWidth(70);
+		recentHistoryTable.getColumnModel().getColumn(4).setPreferredWidth(70);
+		recentHistoryTable.getColumnModel().getColumn(5).setPreferredWidth(96);
 		recentHistoryTable.getTableHeader().setBackground(Color.GRAY);
 		
 		JScrollPane scrollPaneHistory = new JScrollPane(recentHistoryTable);
@@ -121,36 +121,43 @@ public class PatientOverview extends JFrame
 	
 	void LoadMessages()
 	{
-		return;
-		/*
 		try{
-		patientFile = patientFile + ".xls";
-		Workbook workbook = Workbook.getWorkbook(new File(patientFile));
-		WritableWorkbook copy = Workbook.createWorkbook(new File (patientFile), workbook);
-		WritableSheet data = copy.getSheet(0);
-		int messageCount = Integer.parseInt(data.getCell(1,1).getContents());
+		String fileName = patientFile + ".xls";
+		Workbook workbook = Workbook.getWorkbook(new File(fileName));
+		Sheet sheet = workbook.getSheet(0);
+		
+		// Get message count from EXCEL file
+		int messageCount = Integer.parseInt(sheet.getCell(1,1).getContents());
+		
+		// If no messages exist create empty table and return
 		if (messageCount <= 0)
+		{
+			recentMessageTable = new JTable(0,2);
+			recentMessageTable.getTableHeader().getColumnModel().getColumn(0).setHeaderValue("Doctor");
+			recentMessageTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue("Message");
 			return;
+		}
 
 		// Load Patient information from EXCEL patientFiles into Object[][]
 		Object[][] patientData = new Object[messageCount][2];
 		
 		for (int i = 0; i < messageCount; i++)
 		{
-			String message = data.getCell(11, messageCount-1).getContents();
-			String fromDoctor = data.getCell(12, messageCount-1).getContents();
-			patientData[i][0] = message;
-			patientData[i][1] = fromDoctor;
+			String message = sheet.getCell(11, i).getContents();
+			String fromDoctor = sheet.getCell(12, i).getContents();
+			patientData[i][0] = fromDoctor;
+			patientData[i][1] = message;
 		}
-		copy.close();
+		
+		// Create table of Messages
 		String[] columns = {"Doctor", "Message"};
 		recentMessageTable = new JTable(patientData, columns);
+		recentMessageTable.setAutoResizeMode(recentMessageTable.AUTO_RESIZE_OFF);
 		
-		
-		}catch(BiffException | IOException | WriteException e)
+		}catch(BiffException | IOException e)
 		{
 			e.printStackTrace();
-		}*/
+		}
 	}
 	
 	private class LogoutListener implements ActionListener

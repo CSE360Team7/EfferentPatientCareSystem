@@ -29,7 +29,7 @@ public class DoctorOverview extends JFrame
 	public DoctorOverview(String doctor)
 	{
 		super("Efferent Patient Care System - Doctor Overview");
-		setSize(400,250);
+		setSize(400,300);
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);
@@ -62,7 +62,7 @@ public class DoctorOverview extends JFrame
 		
 		// Add Patient Table to Scroll Pane
 		JScrollPane scrollPane = new JScrollPane(PatientEntry);
-		scrollPane.setBounds(10, 75, 365, 100);
+		scrollPane.setBounds(10, 75, 365, 150);
 		scrollPane.getViewport().setBackground(Color.WHITE);
 		this.add(scrollPane);
 		
@@ -81,7 +81,7 @@ public class DoctorOverview extends JFrame
 		
 		// Additional Information Button
 		AdditionalInfo = new JButton("See Additional Information");
-		AdditionalInfo.setBounds(115, 185, 175, 25);
+		AdditionalInfo.setBounds(115, 235, 175, 25);
 		AdditionalInfo.addActionListener(new SeeAdditionalInfo());
 		this.add(AdditionalInfo);
 		
@@ -91,7 +91,7 @@ public class DoctorOverview extends JFrame
 		
 		// Logout Button
 		Logout = new JButton("Logout");
-		Logout.setBounds(300, 185, 75, 25);
+		Logout.setBounds(300, 235, 75, 25);
 		Logout.addActionListener(new LogoutListener());
 		this.add(Logout);
 		
@@ -158,9 +158,9 @@ public class DoctorOverview extends JFrame
 				patientData[j][0] = sheet.getCell(0,0).getContents(); //Username
 				patientData[j][1] = sheet.getCell(2,0).getContents(); //First name
 				patientData[j][2] = sheet.getCell(3,0).getContents(); //Last name
-				patientData[j][3] = sheet.getCell(4,0).getContents(); //Email
-				patientData[j][4] = sheet.getCell(5,0).getContents(); //Age
-				patientData[j][5] = sheet.getCell(6,0).getContents(); //Gender
+				patientData[j][3] = sheet.getCell(5,0).getContents(); //Age
+				patientData[j][4] = sheet.getCell(6,0).getContents(); //Gender
+				patientData[j][5] = sheet.getCell(4,0).getContents(); //Email
 				patientData[j][6] = sheet.getCell(7,0).getContents(); //Patient ID
 				
 				// Update Alert count
@@ -182,10 +182,13 @@ public class DoctorOverview extends JFrame
 		}
 		
 		// Generate table of patient information
-		String[] columnNames = {"Username", "First Name", "Last Name", "Email", "Age", "Gender", "Patient ID"};
+		String[] columnNames = {"Username", "First Name", "Last Name", "Age", "Gender", "Email", "Patient ID"};
 		PatientEntry = new JTable(patientData, columnNames);
 		PatientEntry.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		PatientEntry.getTableHeader().setBackground(Color.GRAY);
+		PatientEntry.getColumnModel().getColumn(0).setPreferredWidth(100);
+		PatientEntry.getColumnModel().getColumn(3).setPreferredWidth(50);
+		PatientEntry.getColumnModel().getColumn(5).setPreferredWidth(125);
 	}
 	
 	private class LogoutListener implements ActionListener
