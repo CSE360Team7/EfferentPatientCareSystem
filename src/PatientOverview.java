@@ -137,12 +137,12 @@ public class PatientOverview extends JFrame
 		// Load Patient information from EXCEL patientFiles into Object[][]
 		Object[][] patientData = new Object[messageCount][2];
 		
-		for (int i = 0; i < messageCount; i++)
+		for (int i = messageCount-1; i > -1 ; i--)
 		{
 			String message = sheet.getCell(11, i).getContents();
 			String fromDoctor = sheet.getCell(12, i).getContents();
-			patientData[i][0] = fromDoctor;
-			patientData[i][1] = message;
+			patientData[messageCount -1 -i][0] = fromDoctor;
+			patientData[messageCount -1 -i][1] = message;
 		}
 		
 		// Create table of Messages
