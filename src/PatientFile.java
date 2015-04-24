@@ -64,29 +64,11 @@ public class PatientFile extends JFrame {
 			severity = sheet.getCell(10, latestEntry-1).getContents();
 			String parseLevels = sheet.getCell(9, latestEntry-1).getContents();
 			String[] delim = parseLevels.split("/");
-		
-			// Parse integers and assign to proper symptoms
-			for (int i = 0; i < delim.length; i++)
-			{
-				switch(i)
-				{
-				case 0:
-					pain = delim[i];
-					break;
-				case 1:
-					drowsiness = delim[i];
-					break;
-				case 2:
-					nausea = delim[i];
-					break;
-				case 3:
-					anxiety = delim[i];
-					break;
-				case 4:		
-					depression = delim[i];
-					break;
-				}
-			}
+			pain = delim[0];
+			drowsiness = delim[1];
+			nausea = delim[2];
+			anxiety = delim[3];
+			depression = delim[4];
 		}
 	}
 	catch(BiffException | IOException e)
