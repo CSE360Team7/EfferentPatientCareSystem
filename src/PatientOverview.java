@@ -174,6 +174,25 @@ public class PatientOverview extends JFrame
 				recentHistoryTable.getTableHeader().getColumnModel().getColumn(6).setHeaderValue("Final Evaluation");
 				return;
 			}
+			Object[][] patientSymptoms = new Object[dataCount][7];
+			for (int i = dataCount-1; i > -1 ; i--)
+			{
+				String levels = sheet.getCell(9, i).getContents();
+				String[] parser = levels.split("/");
+				String finalEval = sheet.getCell(10, i).getContents();
+				String time = sheet.getCell(13, i).getContents();
+				patientSymptoms[dataCount -1 -i][0] = time;
+				patientSymptoms[dataCount -1 -i][1] = parser[0];
+				patientSymptoms[dataCount -1 -i][2] = parser[1];
+				patientSymptoms[dataCount -1 -i][3] = parser[2];
+				patientSymptoms[dataCount -1 -i][4] = parser[3];
+				patientSymptoms[dataCount -1 -i][5] = parser[4];
+				patientSymptoms[dataCount -1 -i][6] = finalEval;
+				
+			}
+			String[] columns = {"Time", "Pain", "Drowsiness", "Nausea", "Anxiety", "Depression", "Final Evaluation"};
+			recentHistoryTable = new JTable(patientSymptoms, columns);
+			recentHistoryTable.setAutoResizeMode(recentMessageTable.AUTO_RESIZE_OFF);
 		}
 		catch(BiffException | IOException e)
 		{

@@ -368,6 +368,8 @@ public class AddEditPatientInfo extends JFrame
 					copy.write();
 					copy.close();
 					JOptionPane.showMessageDialog(null, "Information Entered Correctly!");
+					new PatientOverview(patientFile);
+					dispose();
 					
 				}
 				catch(BiffException | IOException e)
