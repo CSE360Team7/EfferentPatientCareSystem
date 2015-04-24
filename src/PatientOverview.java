@@ -199,7 +199,6 @@ public class PatientOverview extends JFrame
 			e.printStackTrace();
 		}
 	}
-	
 	private class LogoutListener implements ActionListener
 	{
 		@Override
