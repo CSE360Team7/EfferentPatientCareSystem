@@ -62,6 +62,7 @@ public class PatientOverview extends JFrame
 		this.add(welcome);
 		
 		recentMessages = new JLabel("Your Recent Messages");
+		recentMessages.setFont();
 		recentMessages.setBounds(10, 55, 150, 15);
 		this.add(recentMessages);
 				
