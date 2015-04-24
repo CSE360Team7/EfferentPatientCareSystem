@@ -47,6 +47,7 @@ public class PatientFile extends JFrame {
 	doctorLastName = doctorName;
 	
 	fileName = patientFile + ".xls";
+
 	try
 	{
 		Workbook workbook = Workbook.getWorkbook(new File(fileName));

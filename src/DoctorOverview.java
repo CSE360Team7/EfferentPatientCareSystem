@@ -144,7 +144,7 @@ public class DoctorOverview extends JFrame
 		}
 		
 		// Load Patient information from EXCEL patientFiles into Object[][]
-		Object[][] patientData = new Object[patientFiles.size()][7];
+		Object[][] patientData = new Object[patientFiles.size()][8];
 		int j = 0;
 		
 		for (int i = 0; i < patientFiles.size(); i++)
@@ -155,21 +155,25 @@ public class DoctorOverview extends JFrame
 				Workbook workbook = Workbook.getWorkbook(new File(fileName));
 				Sheet sheet = workbook.getSheet(0);
 				
-				patientData[j][0] = sheet.getCell(0,0).getContents(); //Username
-				patientData[j][1] = sheet.getCell(2,0).getContents(); //First name
-				patientData[j][2] = sheet.getCell(3,0).getContents(); //Last name
-				patientData[j][3] = sheet.getCell(5,0).getContents(); //Age
-				patientData[j][4] = sheet.getCell(6,0).getContents(); //Gender
-				patientData[j][5] = sheet.getCell(4,0).getContents(); //Email
-				patientData[j][6] = sheet.getCell(7,0).getContents(); //Patient ID
+				patientData[j][0] = "-";
+				patientData[j][1] = sheet.getCell(0,0).getContents(); //Username
+				patientData[j][2] = sheet.getCell(2,0).getContents(); //First name
+				patientData[j][3] = sheet.getCell(3,0).getContents(); //Last name
+				patientData[j][4] = sheet.getCell(5,0).getContents(); //Age
+				patientData[j][5] = sheet.getCell(6,0).getContents(); //Gender
+				patientData[j][6] = sheet.getCell(4,0).getContents(); //Email
+				patientData[j][7] = sheet.getCell(7,0).getContents(); //Patient ID
 				
 				// Update Alert count
 				Integer latestEntry = Integer.parseInt(sheet.getCell(0,1).getContents());
 				if (latestEntry > 0)
 				{
 					String severity = sheet.getCell(10, latestEntry-1).getContents();
+					patientData[j][0] = severity;
 					if (severity.equals("Critical"))
+					{
 						alertCount++;
+					}
 				}
 			}
 			
@@ -182,13 +186,14 @@ public class DoctorOverview extends JFrame
 		}
 		
 		// Generate table of patient information
-		String[] columnNames = {"Username", "First Name", "Last Name", "Age", "Gender", "Email", "Patient ID"};
+		String[] columnNames = {"Status", "Username", "First Name", "Last Name", "Age", "Gender", "Email", "Patient ID"};
 		PatientEntry = new JTable(patientData, columnNames);
 		PatientEntry.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		PatientEntry.getTableHeader().setBackground(Color.GRAY);
-		PatientEntry.getColumnModel().getColumn(0).setPreferredWidth(100);
-		PatientEntry.getColumnModel().getColumn(3).setPreferredWidth(50);
-		PatientEntry.getColumnModel().getColumn(5).setPreferredWidth(125);
+		PatientEntry.getColumnModel().getColumn(0).setPreferredWidth(45);
+		PatientEntry.getColumnModel().getColumn(1).setPreferredWidth(100);
+		PatientEntry.getColumnModel().getColumn(4).setPreferredWidth(50);
+		PatientEntry.getColumnModel().getColumn(6).setPreferredWidth(125);
 	}
 	
 	private class LogoutListener implements ActionListener
@@ -212,7 +217,7 @@ public class DoctorOverview extends JFrame
 		{
 			if (PatientEntry.getSelectedRow() > -1)
 			{
-				String patientFile = PatientEntry.getValueAt(PatientEntry.getSelectedRow(), 0).toString();
+				String patientFile = PatientEntry.getValueAt(PatientEntry.getSelectedRow(), 1).toString();
 				new PatientFile(patientFile, doctorFile, lastName);
 				dispose();
 			}else{
