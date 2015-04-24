@@ -5,6 +5,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.DateFormat;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -328,6 +331,8 @@ public class AddEditPatientInfo extends JFrame
 				{	
 					String severity = "";
 					int sum = 0;
+					
+					//Calculate severity
 					sum = (Integer.parseInt(painText.getText().trim()) + Integer.parseInt(drowsinessText.getText().trim()) + 
 								Integer.parseInt(nauseaText.getText().trim()) + Integer.parseInt(anxietyText.getText().trim()) +
 								Integer.parseInt(depressionText.getText().trim()));
@@ -347,9 +352,15 @@ public class AddEditPatientInfo extends JFrame
 					String levels = painText.getText() + "/" + drowsinessText.getText() + "/" + nauseaText.getText() + 
 													"/" + anxietyText.getText()+ "/"+ depressionText.getText();
 					
+					//Set timestamp of when info was entered
+					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					Date date = new Date();					
+					
 					Label label = new Label(9, counter, levels);
 					data.addCell(label);
 					label = new Label (10, counter, severity);
+					data.addCell(label);
+					label = new Label(13, counter, dateFormat.format(date));
 					data.addCell(label);
 					counter++;
 					label = new Label(0, 1, counter.toString());
