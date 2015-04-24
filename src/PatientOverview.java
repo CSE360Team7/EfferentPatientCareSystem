@@ -87,7 +87,8 @@ public class PatientOverview extends JFrame
 		// Messages table
 		recentMessageTable.getTableHeader().setBackground(Color.GRAY);
 		recentMessageTable.getColumnModel().getColumn(0).setPreferredWidth(100);
-		recentMessageTable.getColumnModel().getColumn(1).setPreferredWidth(750);	
+		recentMessageTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+		recentMessageTable.getColumnModel().getColumn(2).setPreferredWidth(750);	
 		
 		// Create ScrollPane for Messages table
 		JScrollPane scrollPaneMessage = new JScrollPane(recentMessageTable);
@@ -124,25 +125,28 @@ public class PatientOverview extends JFrame
 			// If no messages exist create empty table and return
 			if (messageCount <= 0)
 			{
-				recentMessageTable = new JTable(0,2);
-				recentMessageTable.getTableHeader().getColumnModel().getColumn(0).setHeaderValue("Doctor");
-				recentMessageTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue("Message");
+				recentMessageTable = new JTable(0,3);
+				recentMessageTable.getTableHeader().getColumnModel().getColumn(0).setHeaderValue("Time");
+				recentMessageTable.getTableHeader().getColumnModel().getColumn(1).setHeaderValue("Doctor");
+				recentMessageTable.getTableHeader().getColumnModel().getColumn(2).setHeaderValue("Message");
 				return;
 			}
 	
 			// Load Patient information from EXCEL patientFiles into Object[][]
-			Object[][] patientData = new Object[messageCount][2];
+			Object[][] patientData = new Object[messageCount][3];
 			
 			for (int i = messageCount-1; i > -1 ; i--)
 			{
 				String message = sheet.getCell(11, i).getContents();
 				String fromDoctor = sheet.getCell(12, i).getContents();
-				patientData[messageCount -1 -i][0] = fromDoctor;
-				patientData[messageCount -1 -i][1] = message;
+				String messageTime = sheet.getCell(14, i).getContents();
+				patientData[messageCount -1 -i][0] = messageTime;
+				patientData[messageCount -1 -i][1] = fromDoctor;
+				patientData[messageCount -1 -i][2] = message;
 			}
 			
 			// Create table of Messages
-			String[] columns = {"Doctor", "Message"};
+			String[] columns = {"Time", "Doctor", "Message"};
 			recentMessageTable = new JTable(patientData, columns);
 			recentMessageTable.setAutoResizeMode(recentMessageTable.AUTO_RESIZE_OFF);		
 		}

@@ -24,6 +24,10 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.DateFormat;
+
 public class PatientFile extends JFrame {
 
 	private JLabel lblFile, lblPain, lblDrowsiness, lblNausea, lblAnxiety, lblDepression, lblMessage, lblEntries, lblSeverity, lblAction;
@@ -215,17 +219,19 @@ public class PatientFile extends JFrame {
 	
 	boolean ChangeSeverity()
 	{
-		try{
-		Workbook workbook = Workbook.getWorkbook(new File(fileName));
-		WritableWorkbook copy = Workbook.createWorkbook(new File (fileName), workbook);
-		WritableSheet data = copy.getSheet(0);
-		Label label = new Label(10, latestEntry-1, (String) cbSeverity.getItemAt(cbSeverity.getSelectedIndex()));
-		data.addCell(label);
-		copy.write();
-		copy.close();
-		return true;
+		try
+		{
+			Workbook workbook = Workbook.getWorkbook(new File(fileName));
+			WritableWorkbook copy = Workbook.createWorkbook(new File (fileName), workbook);
+			WritableSheet data = copy.getSheet(0);
+			Label label = new Label(10, latestEntry-1, (String) cbSeverity.getItemAt(cbSeverity.getSelectedIndex()));
+			data.addCell(label);
+			copy.write();
+			copy.close();
+			return true;
 		
-		}catch(BiffException | IOException | WriteException e)
+		}
+		catch(BiffException | IOException | WriteException e)
 		{
 			e.printStackTrace();
 			return false;
@@ -234,23 +240,29 @@ public class PatientFile extends JFrame {
 	
 	boolean SendMessage()
 	{
-		try{
-		Workbook workbook = Workbook.getWorkbook(new File(fileName));
-		WritableWorkbook copy = Workbook.createWorkbook(new File (fileName), workbook);
-		WritableSheet data = copy.getSheet(0);
-		int messageCount = Integer.parseInt(data.getCell(1,1).getContents());
-		Label label = new Label(11, messageCount, txtMessage.getText());
-		data.addCell(label);
-		label = new Label(12, messageCount, "Dr. " + doctorLastName);
-		data.addCell(label);
-		messageCount++;
-		label = new Label(1,1, String.valueOf(messageCount));
-		data.addCell(label);
-		copy.write();
-		copy.close();
-		return true;
+		try
+		{
+			Workbook workbook = Workbook.getWorkbook(new File(fileName));
+			WritableWorkbook copy = Workbook.createWorkbook(new File (fileName), workbook);
+			WritableSheet data = copy.getSheet(0);
+			int messageCount = Integer.parseInt(data.getCell(1,1).getContents());
+			Label label = new Label(11, messageCount, txtMessage.getText());
+			data.addCell(label);
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date messageDate = new Date();					
+			label = new Label(14,messageCount,dateFormat.format(messageDate));
+			data.addCell(label);
+			label = new Label(12, messageCount, "Dr. " + doctorLastName);
+			data.addCell(label);
+			messageCount++;
+			label = new Label(1,1, String.valueOf(messageCount));
+			data.addCell(label);
+			copy.write();
+			copy.close();
+			return true;
 		
-		}catch(BiffException | IOException | WriteException e)
+		}
+		catch(BiffException | IOException | WriteException e)
 		{
 			e.printStackTrace();
 			return false;
