@@ -21,7 +21,6 @@ public class PatientOverview extends JFrame
 	private JTable recentHistoryTable;
 	private JLabel options;
 	private JButton enterNewInfo;
-	private JButton editExistingInfo;
 	private JButton logout;
 	
 	public PatientOverview(String patient)
@@ -73,13 +72,10 @@ public class PatientOverview extends JFrame
 		this.add(options);
 		
 		enterNewInfo = new JButton("Enter New Information");
-		enterNewInfo.setBounds(10, 370, 175, 25);
+		enterNewInfo.setBounds(180, 370, 175, 25);
 		enterNewInfo.addActionListener(new AddInfoListener());
 		this.add(enterNewInfo);
 		
-		editExistingInfo = new JButton("Edit Existing Information");
-		editExistingInfo.setBounds(190, 370, 175, 25);
-		this.add(editExistingInfo);
 		
 		logout = new JButton("Logout");
 		logout.setBounds(370, 370, 100, 25);
