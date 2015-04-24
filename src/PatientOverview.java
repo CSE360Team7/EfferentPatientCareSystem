@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,8 @@ public class PatientOverview extends JFrame
 		setLocationRelativeTo(null);
 		setLayout(null);
 		setResizable(false);
+		
+		LoadMessages();
 		
 		patientFile = patient;
 		String fileName = patient + ".xls";
@@ -86,7 +89,8 @@ public class PatientOverview extends JFrame
 		recentMessageTable.getColumnModel().getColumn(0).setHeaderValue("Doctor Name");
 		recentMessageTable.getColumnModel().getColumn(1).setHeaderValue("Message");
 		recentMessageTable.getColumnModel().getColumn(0).setPreferredWidth(100);
-		recentMessageTable.getColumnModel().getColumn(1).setPreferredWidth(362);
+		recentMessageTable.getColumnModel().getColumn(1).setPreferredWidth(500);
+		recentMessageTable.getTableHeader().setBackground(Color.GRAY);
 		
 		JScrollPane scrollPaneMessage = new JScrollPane(recentMessageTable);
 		scrollPaneMessage.setBounds(10, 75, 465, 103);
@@ -106,12 +110,47 @@ public class PatientOverview extends JFrame
 		recentHistoryTable.getColumnModel().getColumn(3).setPreferredWidth(75);
 		recentHistoryTable.getColumnModel().getColumn(4).setPreferredWidth(75);
 		recentHistoryTable.getColumnModel().getColumn(5).setPreferredWidth(87);
+		recentHistoryTable.getTableHeader().setBackground(Color.GRAY);
 		
 		JScrollPane scrollPaneHistory = new JScrollPane(recentHistoryTable);
 		scrollPaneHistory.setBounds(10, 220, 465, 103);
 		this.add(scrollPaneHistory);
 		
 		setVisible(true);
+	}
+	
+	void LoadMessages()
+	{
+		return;
+		/*
+		try{
+		patientFile = patientFile + ".xls";
+		Workbook workbook = Workbook.getWorkbook(new File(patientFile));
+		WritableWorkbook copy = Workbook.createWorkbook(new File (patientFile), workbook);
+		WritableSheet data = copy.getSheet(0);
+		int messageCount = Integer.parseInt(data.getCell(1,1).getContents());
+		if (messageCount <= 0)
+			return;
+
+		// Load Patient information from EXCEL patientFiles into Object[][]
+		Object[][] patientData = new Object[messageCount][2];
+		
+		for (int i = 0; i < messageCount; i++)
+		{
+			String message = data.getCell(11, messageCount-1).getContents();
+			String fromDoctor = data.getCell(12, messageCount-1).getContents();
+			patientData[i][0] = message;
+			patientData[i][1] = fromDoctor;
+		}
+		copy.close();
+		String[] columns = {"Doctor", "Message"};
+		recentMessageTable = new JTable(patientData, columns);
+		
+		
+		}catch(BiffException | IOException | WriteException e)
+		{
+			e.printStackTrace();
+		}*/
 	}
 	
 	private class LogoutListener implements ActionListener

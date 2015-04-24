@@ -210,7 +210,7 @@ public class DoctorOverview extends JFrame
 			if (PatientEntry.getSelectedRow() > -1)
 			{
 				String patientFile = PatientEntry.getValueAt(PatientEntry.getSelectedRow(), 0).toString();
-				new PatientFile(patientFile, doctorFile);
+				new PatientFile(patientFile, doctorFile, lastName);
 				dispose();
 			}else{
 				JOptionPane.showMessageDialog(null, "Please select a patient record!");

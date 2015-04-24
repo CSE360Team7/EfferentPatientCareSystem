@@ -34,16 +34,17 @@ public class PatientFile extends JFrame {
 
 	String firstName = "", lastName = "", pain = "", drowsiness = "", nausea = "", anxiety = "", depression = "", severity = "";
 	String fileName;
-	String doctorFile;
+	String doctorFile, doctorLastName;
 	int latestEntry = 0;
 	
-	public PatientFile(String patientFile, String doctor)
+	public PatientFile(String patientFile, String doctor, String doctorName)
 	{
 	
 	super("Efferent Patient Care System - Patient File");
 	
 	// Set returning DoctorOverview doctor name
 	doctorFile = doctor;
+	doctorLastName = doctorName;
 	
 	fileName = patientFile + ".xls";
 	try
@@ -255,7 +256,13 @@ public class PatientFile extends JFrame {
 		Workbook workbook = Workbook.getWorkbook(new File(fileName));
 		WritableWorkbook copy = Workbook.createWorkbook(new File (fileName), workbook);
 		WritableSheet data = copy.getSheet(0);
-		Label label = new Label(11, 0, txtMessage.getText());
+		int messageCount = Integer.parseInt(data.getCell(1,1).getContents());
+		Label label = new Label(11, messageCount, txtMessage.getText());
+		data.addCell(label);
+		label = new Label(12, messageCount, "Dr. " + doctorLastName);
+		data.addCell(label);
+		messageCount++;
+		label = new Label(1,1, String.valueOf(messageCount));
 		data.addCell(label);
 		copy.write();
 		copy.close();
