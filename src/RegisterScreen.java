@@ -339,7 +339,8 @@ public class RegisterScreen extends JFrame implements ActionListener
 	        sheet.addCell(label);
 	        label = new Label (0, 1, counter.toString()); // Symptom counter
 	        sheet.addCell(label);
-	        label = new Label (0, 1, counter.toString()); // Messages counter
+	        label = new Label (1, 1, counter.toString()); // Messages counter
+	        sheet.addCell(label);
         } 
         
         workbook.write();
