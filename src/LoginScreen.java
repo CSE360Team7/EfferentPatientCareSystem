@@ -17,51 +17,59 @@ public class LoginScreen extends JFrame implements ActionListener
 	
 	public LoginScreen()
 	{
-		super ("Efferent Patient Care System - Login");	
+		super("Efferent Patient Care System - Login");
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(300, 200);
 		setResizable(false);
 		setLayout(null);
-		setLocationRelativeTo(null);	
-		
-		userNameTextField = new JTextField("");
-		passwordPasswordField = new JPasswordField("");
-		
+		setLocationRelativeTo(null);
+
+		this.userNameTextField = new JTextField("");
+		this.passwordPasswordField = new JPasswordField("");
+
+		this.userNameTextField.setText("");
+		this.passwordPasswordField.setText("");
+		this.passwordPasswordField.setEchoChar('*');
+
 		JLabel userNameLabel = new JLabel("Username");
-		userNameLabel.setBounds(50, 25, 75, 25);
-		add(userNameLabel);
-		
 		JLabel passwordLabel = new JLabel("Password");
-		passwordLabel.setBounds(50, 60, 75, 25);
-		add(passwordLabel);
-		
 		JLabel newUserLabel = new JLabel("New User? Click Register!");
-		newUserLabel.setBounds(85, 130, 150, 25);
-		add(newUserLabel);
-		
-		userNameTextField.requestFocus();
-		userNameTextField.setText("");
-		userNameTextField.setBounds(125, 25, 110, 25);
-		add(userNameTextField);	
-		
-		passwordPasswordField.setText("");
-		passwordPasswordField.setBounds(125, 60, 110, 25);
-		passwordPasswordField.setEchoChar('*');
-		add(passwordPasswordField);
-		
+
+
 		JButton loginButton = new JButton("Login");
-		loginButton.setBounds(50, 100, 75, 25);
-		loginButton.setActionCommand("Login");
-		loginButton.addActionListener(this);
-		add(loginButton);
-		
+			loginButton.setActionCommand("Login");
+			loginButton.addActionListener(this);
 		JButton newUserButton = new JButton("Register");
+			newUserButton.setActionCommand("NewUser");
+			newUserButton.addActionListener(this);
+
+		userNameLabel.setBounds(50, 25, 75, 25);
+		passwordLabel.setBounds(50, 60, 75, 25);
+		newUserLabel.setBounds(85, 130, 150, 25);
+		this.userNameTextField.setBounds(125, 25, 110, 25);
+		this.passwordPasswordField.setBounds(125, 60, 110, 25);
+		loginButton.setBounds(50, 100, 75, 25);
 		newUserButton.setBounds(150, 100, 85, 25);
-		newUserButton.setActionCommand("NewUser");
-		newUserButton.addActionListener(this);
+
+		//with some default fonts, the ends of words will get cut off
+		//add tooltips so users can at least see what the labels are supposed to say
+		userNameLabel.setToolTipText(userNameLabel.getText());
+		passwordLabel.setToolTipText(passwordLabel.getText());
+		newUserLabel.setToolTipText(newUserLabel.getText());
+		loginButton.setToolTipText(loginButton.getText());
+		newUserButton.setToolTipText(newUserButton.getText());
+
+		add(userNameLabel);
+		add(passwordLabel);
+		add(newUserLabel);
+		add(userNameTextField);
+		add(passwordPasswordField);
+		add(loginButton);
 		add(newUserButton);
-		
+
+		userNameTextField.requestFocus();
+
 		setVisible(true);
 	}
 
@@ -88,7 +96,7 @@ public class LoginScreen extends JFrame implements ActionListener
 		}
 	}
 	
-	public void LoginUser() throws BiffException, IOException, WriteException{
+	public void LoginUser() throws BiffException, IOException, WriteException {
 		
 		JPanel alert = new JPanel();		
 		// Define file name
@@ -119,19 +127,17 @@ public class LoginScreen extends JFrame implements ActionListener
 	        		new PatientOverview(userName);
 	        		dispose();
 	        	}
-	        	else 
-	        	{	
-	        		//JOptionPane.showMessageDialog(alert, "Doctor Overview");
-	        		new DoctorOverview(userName);
-	        		dispose();
-	        	}
-	    		
+	        	else
+				{
+					//JOptionPane.showMessageDialog(alert, "Doctor Overview");
+					new DoctorOverview(userName);
+					dispose();
+				}
 	        } 
 	        else 
 	        {
 	        	JOptionPane.showMessageDialog(alert, "Password incorrect.");	
 	        }
-	        	
 		}
 		catch (FileNotFoundException notFound) 
 		{
