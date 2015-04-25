@@ -62,10 +62,12 @@ public class PatientOverview extends JFrame
 		this.add(welcome);
 		
 		recentMessages = new JLabel("Your Recent Messages");
+		recentMessages.setFont(new Font(recentMessages.getFont().getFontName(), Font.BOLD, 12));
 		recentMessages.setBounds(10, 55, 150, 15);
 		this.add(recentMessages);
 				
 		recentHistory = new JLabel("Your Recent History");
+		recentHistory.setFont(new Font(recentHistory.getFont().getFontName(), Font.BOLD, 12));
 		recentHistory.setBounds(10,200,150,15);
 		this.add(recentHistory);
 		
@@ -86,7 +88,7 @@ public class PatientOverview extends JFrame
 		
 		// Messages table
 		recentMessageTable.getTableHeader().setBackground(Color.GRAY);
-		recentMessageTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+		recentMessageTable.getColumnModel().getColumn(0).setPreferredWidth(120);
 		recentMessageTable.getColumnModel().getColumn(1).setPreferredWidth(100);
 		recentMessageTable.getColumnModel().getColumn(2).setPreferredWidth(750);	
 		
@@ -96,7 +98,7 @@ public class PatientOverview extends JFrame
 		this.add(scrollPaneMessage);
 	
 		recentHistoryTable.getTableHeader().setBackground(Color.GRAY);
-		recentHistoryTable.getColumnModel().getColumn(0).setPreferredWidth(70);
+		recentHistoryTable.getColumnModel().getColumn(0).setPreferredWidth(120);
 		recentHistoryTable.getColumnModel().getColumn(1).setPreferredWidth(70);
 		recentHistoryTable.getColumnModel().getColumn(2).setPreferredWidth(70);
 		recentHistoryTable.getColumnModel().getColumn(3).setPreferredWidth(70);
