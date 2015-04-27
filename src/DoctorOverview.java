@@ -23,12 +23,12 @@ public class DoctorOverview extends JFrame
 	private String lastName = "", doctorFile = "";
 	private Integer alertCount = 0;
 	private JTable PatientEntry;
-	private JLabel Alerts, Welcome, Entries;
-	private JButton AdditionalInfo, Logout;
-	
+
 	public DoctorOverview(String doctor)
 	{
 		super("Efferent Patient Care System - Doctor Overview");
+		JLabel Alerts, Welcome, Entries;
+		JButton AdditionalInfo, Logout;
 		setSize(400,300);
 		setResizable(false);
 		setLayout(null);
@@ -52,6 +52,7 @@ public class DoctorOverview extends JFrame
 		catch(BiffException | IOException e)
 		{
 			e.printStackTrace();
+			System.exit(-1);
 		}
 		
 		// Entries label
@@ -101,8 +102,8 @@ public class DoctorOverview extends JFrame
 
 	void LoadPatientFiles()
 	{
-	    ArrayList<String> excelFiles = new ArrayList<String>();
-	    ArrayList<String> patientFiles = new ArrayList<String>();
+	    ArrayList<String> excelFiles = new ArrayList<>();
+	    ArrayList<String> patientFiles = new ArrayList<>();
 	    
 		// Find all EXCEL files
 		Path currentRelativePath = Paths.get("");
@@ -111,19 +112,25 @@ public class DoctorOverview extends JFrame
 		{
 		    File folder = new File(dirpath);
 		    File[] listOfFiles = folder.listFiles();
-		    
-		    	for (int i = 0; i < listOfFiles.length; i++)
-		    	{
-		    		if (listOfFiles[i].getName().endsWith(".xls"))
-		    		{
-		    			String temp = listOfFiles[i].getName();
-		    			excelFiles.add(temp);
-		    		}
-		    	}
-		}catch (Exception e){}
+			if (listOfFiles != null) {
+				for (int i = 0; i < listOfFiles.length; i++) {
+					if (listOfFiles[i].getName().endsWith(".xls")) {
+						String temp = listOfFiles[i].getName();
+						excelFiles.add(temp);
+					}
+				}
+			}
+			else
+			{
+				throw new NullPointerException();
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
 		
 		// Find Patient EXCEL files	
-		for (int i =0; i < excelFiles.size(); i++)
+		for (int i  =0; i < excelFiles.size(); i++)
 		{
 			try
 			{
@@ -131,7 +138,7 @@ public class DoctorOverview extends JFrame
 				Workbook workbook = Workbook.getWorkbook(new File(fileName));
 				Sheet sheet = workbook.getSheet(0);
 				
-				if (!sheet.getCell(8,0).getContents().toString().equals("1"))
+				if (!sheet.getCell(8,0).getContents().equals("1"))
 				{
 					patientFiles.add(excelFiles.get(i));
 				}
@@ -139,6 +146,7 @@ public class DoctorOverview extends JFrame
 			catch(BiffException | IOException e)
 			{
 				e.printStackTrace();
+				System.exit(-1);
 			}
 			
 		}
@@ -180,6 +188,7 @@ public class DoctorOverview extends JFrame
 			catch(BiffException | IOException e)
 			{
 				e.printStackTrace();
+				System.exit(-1);
 			}
 			
 			j++;

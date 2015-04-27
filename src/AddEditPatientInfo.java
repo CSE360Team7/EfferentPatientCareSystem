@@ -15,17 +15,12 @@ import javax.swing.event.ChangeListener;
 
 import jxl.*;
 import jxl.write.*;
-import jxl.write.biff.RowsExceededException;
 import jxl.read.biff.*;
 
 public class AddEditPatientInfo extends JFrame
 {
 	private Integer counter;
 	private String patientFirstName, patientLastName, patientFile;
-	private JLabel nameLabel;
-	private JLabel info1;
-	private JLabel info2;
-	private JLabel painLabel, drowsinessLabel, nauseaLabel, anxietyLabel, depressionLabel;
 	private JSlider painSlider, drowsinessSlider, nauseaSlider, anxietySlider, depressionSlider;
 	private JTextField painText, drowsinessText, nauseaText, anxietyText, depressionText;
 	private JButton submit, reset, cancel;
@@ -33,7 +28,13 @@ public class AddEditPatientInfo extends JFrame
 	public AddEditPatientInfo(String patient)
 	{
 		super("Efferent Patient Care System - Add/Edit Patient Information");
-		
+
+		JLabel nameLabel;
+		JLabel info1;
+		JLabel info2;
+		JLabel painLabel, drowsinessLabel, nauseaLabel, anxietyLabel, depressionLabel;
+
+
 		setSize(452,500);
 		setResizable(false);
 		setLayout(null);
@@ -59,6 +60,7 @@ public class AddEditPatientInfo extends JFrame
 		catch(BiffException | IOException e)
 		{
 			e.printStackTrace();
+			System.exit(-1);
 		}
 
 		nameLabel = new JLabel(patientFirstName + " " + patientLastName);
@@ -330,7 +332,7 @@ public class AddEditPatientInfo extends JFrame
 				try
 				{	
 					String severity = "";
-					int sum = 0;
+					int sum;
 					
 					//Calculate severity
 					sum = (Integer.parseInt(painText.getText().trim()) + Integer.parseInt(drowsinessText.getText().trim()) + 
@@ -372,18 +374,11 @@ public class AddEditPatientInfo extends JFrame
 					dispose();
 					
 				}
-				catch(BiffException | IOException e)
+				catch(BiffException | WriteException | IOException e)
 				{
 					e.printStackTrace();
+					System.exit(-1);
 				} 
-				catch (RowsExceededException e) 
-				{
-					e.printStackTrace();
-				} 
-				catch (WriteException e) 
-				{
-					e.printStackTrace();
-				}
 			}
 			if(arg0.getSource() == reset)
 			{

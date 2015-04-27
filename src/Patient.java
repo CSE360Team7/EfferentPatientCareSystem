@@ -1,6 +1,5 @@
 
-public class Patient extends User
-{
+public class Patient extends User {
 	private int age, patientID;
 	private String gender;
 	
@@ -53,5 +52,4 @@ public class Patient extends User
 	int getID(){
 		return patientID;
 	}
-	
 }

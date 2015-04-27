@@ -8,7 +8,8 @@ public abstract class User {
 	private char[] password;
 	private int userType;
 	
-	User(){
+	User()
+	{
 		firstName = "";
 		lastName = "";
 		userName = "";
@@ -24,7 +25,6 @@ public abstract class User {
 		emailAddress = e;
 		password = p;
 	}
-
 
 	void setFirstName(String a){
 		firstName = a;

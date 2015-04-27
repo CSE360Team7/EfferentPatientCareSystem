@@ -226,6 +226,7 @@ public class RegisterScreen extends JFrame implements ActionListener
 			catch (BiffException|WriteException|IOException e)
 			{
 				e.printStackTrace();
+				System.exit(-1);
 			}
 		}
 	}
@@ -268,10 +269,13 @@ public class RegisterScreen extends JFrame implements ActionListener
 		newUser.setPassword(newPasswordPasswordField.getPassword());
 
 		// Try to create user Excel file
-		try {
+		try
+		{
 			createNewUserFile(newUser);
-		} catch (BiffException|WriteException|IOException e) {
+		}
+		catch (BiffException|WriteException|IOException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 

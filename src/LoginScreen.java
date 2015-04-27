@@ -85,6 +85,7 @@ public class LoginScreen extends JFrame implements ActionListener
 			catch (BiffException | WriteException | IOException e) 
 			{
 				e.printStackTrace();
+				System.exit(-1);
 			}	
 		}
 		
@@ -141,7 +142,7 @@ public class LoginScreen extends JFrame implements ActionListener
 		}
 		catch (FileNotFoundException notFound) 
 		{
-    			JOptionPane.showMessageDialog(alert, "Username invalid.");	
+			JOptionPane.showMessageDialog(alert, "Username invalid.");
 		}
 	}
 }

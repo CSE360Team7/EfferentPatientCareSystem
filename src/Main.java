@@ -19,6 +19,7 @@ public class Main
 									| UnsupportedLookAndFeelException e) 
 			        {
 						e.printStackTrace();
+						System.exit(-1);
 					}
 	        	}
 		}

@@ -54,21 +54,22 @@ public class PatientOverview extends JFrame
 		catch(BiffException | IOException e)
 		{
 			e.printStackTrace();
+			System.exit(-1);
 		}
 		
 		welcome = new JLabel ("Welcome " + patientFirstName + " " + patientLastName);
 		welcome.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		welcome.setBounds(10, 30, 150, 15);
+		welcome.setBounds(10, 30, 490, 15);
 		this.add(welcome);
 		
 		recentMessages = new JLabel("Your Recent Messages");
 		recentMessages.setFont(new Font(recentMessages.getFont().getFontName(), Font.BOLD, 12));
-		recentMessages.setBounds(10, 55, 150, 15);
+		recentMessages.setBounds(10, 55, 490, 15);
 		this.add(recentMessages);
 				
 		recentHistory = new JLabel("Your Recent History");
 		recentHistory.setFont(new Font(recentHistory.getFont().getFontName(), Font.BOLD, 12));
-		recentHistory.setBounds(10,200,150,15);
+		recentHistory.setBounds(10, 200, 150, 15);
 		this.add(recentHistory);
 		
 		options = new JLabel("What would you like to do?");
@@ -137,24 +138,25 @@ public class PatientOverview extends JFrame
 			// Load Patient information from EXCEL patientFiles into Object[][]
 			Object[][] patientData = new Object[messageCount][3];
 			
-			for (int i = messageCount-1; i > -1 ; i--)
+			for (int i = messageCount - 1; i > -1 ; i--)
 			{
 				String message = sheet.getCell(11, i).getContents();
 				String fromDoctor = sheet.getCell(12, i).getContents();
 				String messageTime = sheet.getCell(14, i).getContents();
-				patientData[messageCount -1 -i][0] = messageTime;
-				patientData[messageCount -1 -i][1] = fromDoctor;
-				patientData[messageCount -1 -i][2] = message;
+				patientData[messageCount - i - 1][0] = messageTime;
+				patientData[messageCount - i - 1][1] = fromDoctor;
+				patientData[messageCount - i - 1][2] = message;
 			}
 			
 			// Create table of Messages
-			String[] columns = {"Time", "Doctor", "Message"};
+			String[] columns = { "Time", "Doctor", "Message" };
 			recentMessageTable = new JTable(patientData, columns);
-			recentMessageTable.setAutoResizeMode(recentMessageTable.AUTO_RESIZE_OFF);		
+			recentMessageTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		}
 		catch(BiffException | IOException e)
 		{
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	
@@ -198,11 +200,12 @@ public class PatientOverview extends JFrame
 			}
 			String[] columns = {"Time", "Pain", "Drowsiness", "Nausea", "Anxiety", "Depression", "Final Evaluation"};
 			recentHistoryTable = new JTable(patientSymptoms, columns);
-			recentHistoryTable.setAutoResizeMode(recentMessageTable.AUTO_RESIZE_OFF);
+			recentHistoryTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		}
 		catch(BiffException | IOException e)
 		{
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 	private class LogoutListener implements ActionListener
